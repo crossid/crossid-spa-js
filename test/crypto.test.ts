@@ -1,7 +1,12 @@
 /**
  * @jest-environment jsdom
  */
-import { generateRandomString, sha256 } from '../src/crypto'
+import { PKCE_CODE_MIN_LEN, PKCE_CODE_MAX_LEN } from '../src/const'
+import {
+  generatePKCECodeVerifier,
+  generateRandomString,
+  sha256,
+} from '../src/crypto'
 // pollyfils
 import { Crypto } from '@peculiar/webcrypto'
 import { TextEncoder } from 'util'
@@ -30,6 +35,14 @@ describe('generateRandomString', () => {
     expect(generateRandomString(cs, 100)).not.toBe(
       generateRandomString(cs, 100)
     )
+  })
+})
+
+describe('generatePKCECodeVerifier', () => {
+  test('generate', () => {
+    const v = generatePKCECodeVerifier()
+    expect(v.length).toBeGreaterThanOrEqual(PKCE_CODE_MIN_LEN)
+    expect(v.length).toBeLessThanOrEqual(PKCE_CODE_MAX_LEN)
   })
 })
 
