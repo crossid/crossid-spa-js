@@ -5,6 +5,7 @@ import {
   base64Encode,
   base64Decode,
   base64URLEncode,
+  base64URLDecode,
   bufferToBase64URLEncode,
 } from '../src/codec'
 import { TextEncoder } from 'util'
@@ -25,6 +26,13 @@ describe('base64Decode', () => {
 describe('base64URLEncode', () => {
   it('url encode a base64 string', () => {
     expect(base64URLEncode('a+b/z==')).toBe('a-b_z')
+  })
+})
+
+describe('base64URLDecode', () => {
+  it('url encode a base64 string', () => {
+    const d = 'a+b/z'
+    expect(base64URLDecode(base64URLEncode(d))).toBe(d)
   })
 })
 

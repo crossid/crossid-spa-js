@@ -15,6 +15,12 @@ export const base64URLEncode = (b64str: string) => {
   return b64str.replace(/[+/=]/g, (m: string) => charsToReplace[m])
 }
 
+// base64URLDecode performs the opposite of base64URLEncode
+export const base64URLDecode = (input: string) => {
+  const b64Chars: { [index: string]: string } = { '-': '+', _: '/' }
+  return input.replace(/[-_]/g, (m: string) => b64Chars[m])
+}
+
 export const bufferToBase64URLEncode = (input: number[] | Uint8Array) => {
   return base64URLEncode(
     base64Encode(String.fromCharCode(...Array.from(input)))
