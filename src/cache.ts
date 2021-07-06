@@ -2,7 +2,7 @@
 //
 // implementations may use this in constructor to define default opts,
 
-import { isObject } from './object'
+import { isObject } from './type'
 
 // methods such put may override default opts.
 interface CacheOpts {
