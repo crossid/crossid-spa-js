@@ -1,0 +1,111 @@
+/**
+ * @jest-environment jsdom
+ */
+import { assert, decode } from '../src/jwt'
+import { DecodedJWT, IDToken, JWTClaims, JWTHeader } from '../src/types'
+import * as jwt from 'jsonwebtoken'
+import * as pem from 'pem'
+import { TextEncoder } from 'util'
+global.TextEncoder = TextEncoder
+
+describe('decode', () => {
+  test('jwt', async () => {
+    const h = {
+      alg: 'RS256',
+      typ: 'JWT',
+    }
+    const p = {
+      iss: 'myorg.crossid.io',
+      iat: 1625484280,
+      exp: 2540633080,
+      aud: ['myorg.com'],
+      sub: 'foo@bar.com',
+      name: 'Jared Dunn',
+      given_name: 'Jared',
+      family_name: 'jared@example.com',
+    }
+
+    const tok = await createJWT({
+      header: h,
+      payload: p,
+    })
+
+    const jt = decode<IDToken>(tok)
+    expect(jt.header).toMatchObject(h)
+    expect(jt.payload).toMatchObject(p)
+  })
+
+  test('malformed jwt', () => {
+    expect(() => decode('foo.bar')).toThrow(Error)
+  })
+})
+
+describe('verify', () => {
+  const as = <C extends JWTClaims>(jwt: DecodedJWT<C>) => {
+    if (jwt.payload.iss !== 'foo') {
+      return 'mismatch'
+    }
+
+    return null
+  }
+
+  test('valid', () => {
+    expect(
+      assert(
+        { header: { alg: 'RSA256', typ: 'JWT' }, payload: { iss: 'foo' } },
+        as
+      )
+    ).toBe(null)
+  })
+
+  test('mismatch', () => {
+    expect(() =>
+      assert(
+        { header: { alg: 'RSA256', typ: 'JWT' }, payload: { iss: 'bar' } },
+        as
+      )
+    ).toThrow()
+  })
+})
+
+// utils
+//
+interface Cert {
+  cert: string
+  publicKey: string
+  serviceKey: string
+}
+
+const createCert = (): Promise<Cert> =>
+  new Promise((res, rej) => {
+    pem.createCertificate({ days: 1, selfSigned: true }, function (err, keys) {
+      if (err) {
+        return rej(err)
+      }
+
+      pem.getPublicKey(keys.certificate, function (err, p) {
+        if (err) {
+          return rej(err)
+        }
+        res({
+          serviceKey: keys.serviceKey,
+          cert: keys.certificate,
+          publicKey: p.publicKey,
+        })
+      })
+    })
+  })
+
+const createJWT = async <C extends JWTClaims>({
+  header,
+  payload,
+}: {
+  header: JWTHeader
+  payload: C
+}) => {
+  const cert = await createCert()
+  return jwt.sign(payload, cert.serviceKey, {
+    algorithm: header.alg,
+    // expiresIn: '5m',
+  })
+}

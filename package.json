@@ -23,6 +23,8 @@
     "@web/dev-server": "^0.1.17",
     "concurrently": "^6.2.0",
     "jest": "^27.0.6",
+    "jsonwebtoken": "^8.5.1",
+    "pem": "^1.14.4",
     "prettier": "^2.3.2",
     "rollup-plugin-terser": "^7.0.2",
     "ts-jest": "^27.0.3",
