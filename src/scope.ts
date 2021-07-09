@@ -6,5 +6,5 @@ import { dedup } from './string'
  * @returns a string containing a space separated unique scopes
  */
 export const uniqueScopes = (...scopes: string[]) => {
-  return dedup(scopes.join(' ').trim().split(/\s+/)).join(' ')
+  return dedup(scopes.join(' ').trim().split(/\s+/))
 }
