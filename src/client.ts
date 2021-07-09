@@ -1,0 +1,641 @@
+import { CACHE_INMEM, CACHE_LS, CACHE_SS } from './const'
+import {
+  ICache,
+  InmemCache,
+  LocalStorageCache,
+  SessionStorageCache,
+} from './cache'
+import { uniqueScopes } from './scope'
+import {
+  AuthorizationCodeData,
+  AuthorizationRequest,
+  AuthorizationState,
+  DecodedJWT,
+  IDToken,
+  JWTClaims,
+  LoginCompleteResponse,
+} from './types'
+import { generatePKCECodeVerifier, sha256 } from './crypto'
+import { base64Encode, base64URLEncode, bufferToBase64URLEncode } from './codec'
+import { createQueryString } from './url'
+import { TokenEndpoint, TokenRequest } from './api'
+import { assert, decode } from './jwt'
+import {
+  JWTAlgAssertion,
+  JWTAudAssertion,
+  JWTExpAssertion,
+  JWTIatAssertion,
+  JWTIssuerAssertion,
+  JWTNbfAssertion,
+  JWTNonceAssertion,
+  JWTRequiredClaimsAssertion,
+} from './jwt_assertions'
+
+const SPLIT_SEP = '__'
+const KEY_SEP = '|'
+const CACHE_KEY_PREFIX = 'crossid-spa-js'
+const LOGIN_STATE_KEY = `${CACHE_KEY_PREFIX}${KEY_SEP}login`
+const CACHE_IDX_KEY = `${CACHE_KEY_PREFIX}${KEY_SEP}index`
+
+type tokenTypes = 'access_token' | 'id_token' | 'refresh_token'
+
+/**
+ * Describes the parameters required in order to perform an authorization code request.
+ */
+interface BaseAuthorizationCodeParams {
+  /**
+   * Defines the requested audience when performing an authorization code request.
+   */
+  audience: string[]
+  /**
+   * Defines the requested response type when performing an authorization code request.
+   */
+  response_type: string
+  /**
+   * The URL is where authorization server will redirect browser upon a successful authentication.
+   */
+  redirect_uri: string
+  /**
+   * Defines the requested scopes.
+   */
+  scope: string
+}
+
+/**
+ * Base client options required to configure a new client.
+ */
+export interface BaseClientOpts extends Partial<BaseAuthorizationCodeParams> {
+  /**
+   * OAuth2 client identifier of your application.
+   */
+  client_id: string
+
+  /**
+   * Defines where cache data is stored, possible values are: `memory`, `local_storage` or `session_storage`.
+   * Default: 'memory'
+   */
+  cache_type?: typeof CACHE_INMEM | typeof CACHE_LS | typeof CACHE_SS
+}
+
+/**
+ * Client options to configure a client for a crossid tenant, visit us at [crossid.io](https://crossid.io).
+ */
+export interface ClientCrossidOpts extends BaseClientOpts {
+  /**
+   * your org crossid tenant name registered at [crossid.io](https://crossid.io)
+   */
+  tenant: string
+
+  /**
+   * custom authorization server, defaults to `default`
+   */
+  auth_server?: string
+}
+
+/**
+ * Client options to manually configure a client.
+ */
+export interface ClientOpts extends BaseClientOpts {
+  /**
+   * The URL used to request an authorization code.
+   */
+  authorization_endpoint: string
+
+  /**
+   * The URL used to exchange an authorization code with tokens.
+   */
+  token_endpoint: string
+
+  /**
+   * The expected issuer of the tokens.
+   */
+  issuer: string
+}
+
+/**
+ * Client options to configure a client via an [OIDC well-known endpoint](https://openid.net/specs/openid-connect-discovery-1_0.html)
+ */
+export interface ClientDiscoveryOpts extends BaseClientOpts {
+  /**
+   * URL to the well-known endpoint.
+   */
+  wellknown_endpoint: string
+}
+
+/**
+ * Options when requesting an authorization code.
+ */
+export interface AuthorizationOpts
+  extends Partial<BaseAuthorizationCodeParams> {
+  /**
+   * state can be used by the application to preserve some state.
+   * for example, the application may provide a state that contains the return to url where user
+   * should be redirected to upon completion of a successful login.
+   */
+  state?: string
+}
+
+/**
+ * Options for the `GetUser` method.
+ */
+export interface GetUserOpts {
+  /**
+   * The scopes that were requested when authenticated.
+   */
+  scope?: string
+
+  /**
+   * The audience that were requested when authenticated.
+   */
+  audience?: string[]
+}
+
+/**
+ * Options for the `GetAccessToken` method.
+ */
+export interface GetAccessTokenOpts {
+  /**
+   * The scopes that were requested when authenticated.
+   */
+  scope?: string
+
+  /**
+   * The audience that were requested when authenticated.
+   */
+  audience?: string[]
+}
+
+/**
+ * CrossidClient performs OAuth2 authorization code flow using the PKCE extension.
+ * A typical application will only need a sigle instance of this client.
+ * In more advanced cases, such as a single SPA app that requires interaction with multiple oauth2 clients,
+ * a client instance should be created per OAuth client id.
+ *
+ * ```js
+ * const opts = {
+ * ...
+ * }
+ * const crossid = new CrossidClient(opts)
+ * ```
+ */
+export default class CrossidClient {
+  // scopes are the scopes to be sent on authentication requests.
+  // these can be overriden by various methods such as loginWithRedirect()
+  private scope: string
+
+  // state manages a state that surives redirections.
+  private state: ICache
+
+  // cache caches data such as user and tokens.
+  private cache: ICache
+
+  // the name of the key when persisting a state.
+  private stateKey: string
+
+  constructor(private opts: ClientOpts) {
+    this.stateKey = LOGIN_STATE_KEY
+    this.scope = opts.scope
+
+    this.state = new SessionStorageCache({ ttl: 5 * 60 })
+    this.cache = this._cacheFactory(this.opts.cache_type || CACHE_INMEM)
+    this._purgeIndex()
+  }
+
+  /**
+   * Creates a redirect URL that can be used to start an authorization code request.
+   *
+   * This method is useful when you want control over the actual redirection,
+   * if you want browser to be redirected, call `loginWithRedirect` instead.
+   *
+   * ```js
+   * const url = createRedirectURL()
+   * window.location.assign(url)
+   * ```
+   *
+   * @param opts custom options that affects the authorization code process.
+   * @returns a URL where the browser should be redirected to in order to login.
+   */
+  public async createRedirectURL(opts: AuthorizationOpts = {}) {
+    const data = await this._createAuthorizationData(opts)
+    await this._persistAuthorizationData(data)
+    return this._authorizeUrl(data.request)
+  }
+
+  /**
+   * Starts a login by redirecting the current window.
+   *
+   * ```js
+   * loginWithRedirect()
+   * ```
+   *
+   * @param opts options
+   */
+  public async loginWithRedirect(opts: AuthorizationOpts) {
+    const url = await this.createRedirectURL(opts)
+    window.location.replace(url)
+  }
+
+  /**
+   * Call this method in order to complete authentication flow.
+   * this method should be called after the End-User sucessfully signs-in.
+   *
+   * @param url the URL returned from the authorization code endpoint, defaults to `window.location.href`
+   * @returns
+   */
+  public async handleRedirectCallback(
+    url: URL = new URL(window.location.href)
+  ): Promise<LoginCompleteResponse> {
+    const sp = url.searchParams
+    const code = sp.get('code')
+    const error = sp.get('error')
+    if (error) {
+      throw new Error(error)
+    }
+
+    const state = this.state.get<AuthorizationState>(this.stateKey)
+    // this is the actual PKCE protection.
+    if (!state?.code_verifier) {
+      throw new Error('invalid state, try sign-in again')
+    }
+
+    const tokenOptions = {
+      tokenEndpoint: this.opts.token_endpoint,
+      client_id: this.opts.client_id,
+      code_verifier: state.code_verifier,
+      grant_type: 'authorization_code',
+      redirect_uri: state.redirect_uri,
+      code,
+    } as TokenRequest
+
+    const resp = await TokenEndpoint(tokenOptions)
+    const idToken = decode<IDToken>(resp.id_token)
+    const accessToken = decode<JWTClaims>(resp.access_token)
+    this.state.remove(this.stateKey)
+    this._assertAccessToken(accessToken, state.audience)
+    this._assertIDToken(idToken, state.nonce)
+    accessToken.payload._raw = resp.access_token
+    this._cacheTokens(idToken, accessToken, resp.refresh_token)
+
+    return {
+      state: state.state,
+    }
+  }
+
+  /**
+   * Returns an authenticated User.
+   *
+   * @param opts options to get a user for a more specific authentication.
+   * @returns a promise which resolves to a User or undefined if no authenticated user found.
+   */
+  public async getUser<E extends IDToken>(
+    opts: GetUserOpts = {}
+  ): Promise<E | undefined> {
+    const aud = opts.audience || this.opts.audience
+    const scp = uniqueScopes(this.scope, opts.scope)
+    const keys = this._getTokensKeysFromCache('id_token', aud, scp)
+    const tok = this._getNarrowedKey<DecodedJWT<E>>(keys)
+    return tok?.payload
+  }
+
+  /**
+   * Returns an access token.
+   *
+   * @param opts options to get an access token for a more specific authentication.
+   * @returns a promise which resolves to an access token string.
+   */
+  public async getAccessToken(
+    opts: GetAccessTokenOpts = {}
+  ): Promise<string | undefined> {
+    const aud = opts.audience || this.opts.audience
+    const scp = uniqueScopes(this.scope, opts.scope)
+    const keys = this._getTokensKeysFromCache('access_token', aud, scp)
+    const tok = this._getNarrowedKey<DecodedJWT<JWTClaims>>(keys)
+    return tok?.payload?._raw
+  }
+
+  private async _createAuthorizationData(
+    opts: AuthorizationOpts
+  ): Promise<AuthorizationCodeData> {
+    const state = base64URLEncode(base64Encode(generatePKCECodeVerifier()))
+    const nonce = base64URLEncode(base64Encode(generatePKCECodeVerifier()))
+    const code_verifier = generatePKCECodeVerifier()
+
+    // codeChallenge is a SHA of the verifier
+    const codeChallengeBuf = await sha256(code_verifier)
+    let code_challenge = bufferToBase64URLEncode(
+      new Uint8Array(codeChallengeBuf)
+    )
+
+    const params: Partial<AuthorizationRequest> = {
+      audience: opts.audience,
+      redirect_uri: opts.redirect_uri,
+      response_type: opts.response_type,
+      scope: opts.scope,
+      state,
+      nonce,
+      code_challenge,
+    }
+
+    const request = this._mergeAuthorizationCodeParams(params)
+
+    return {
+      request,
+      code_verifier,
+      appState: opts.state,
+    }
+  }
+
+  // _persistAuthorizationData saves the authorization request state.
+  private async _persistAuthorizationData(
+    data: AuthorizationCodeData
+  ): Promise<void> {
+    const req = data.request
+
+    const state: AuthorizationState = {
+      audience: req.audience,
+      redirect_uri: req.redirect_uri,
+      scope: req.scope,
+      nonce: req.nonce,
+      state: data.appState,
+      code_verifier: data.code_verifier,
+    }
+
+    this.state.set(this.stateKey, state)
+  }
+
+  // _mergeAuthorizationCodeParams merges opts with defaults
+  private _mergeAuthorizationCodeParams(
+    opts: Partial<AuthorizationRequest>
+  ): AuthorizationRequest {
+    return {
+      client_id: this.opts.client_id,
+      audience: opts.audience || this.opts.audience,
+      response_type: opts.response_type || this.opts.response_type || 'code',
+      redirect_uri: opts.redirect_uri || this.opts.redirect_uri,
+      nonce: opts.nonce,
+      state: opts.state,
+      scope: opts.scope || this.opts.scope,
+      code_challenge: opts.code_challenge,
+      code_challenge_method: 'S256',
+    }
+  }
+
+  // _assertAccessToken asserts that the given token is valid.
+  private _assertAccessToken(token: DecodedJWT<JWTClaims>, aud: string[]) {
+    assert(
+      token,
+      JWTRequiredClaimsAssertion(
+        ['alg', 'typ'],
+        ['iss', 'sub', 'aud', 'exp', 'iat']
+      ),
+      JWTIssuerAssertion(this.opts.issuer),
+      JWTAlgAssertion('RS256'),
+      JWTAudAssertion(aud),
+      JWTExpAssertion(true),
+      JWTNbfAssertion(true)
+    )
+  }
+
+  // _assertIDToken assets that the given id token is valid.
+  private _assertIDToken(token: DecodedJWT<IDToken>, nonce: string) {
+    assert(
+      token,
+      JWTRequiredClaimsAssertion(
+        ['alg', 'typ'],
+        ['iss', 'sub', 'aud', 'nonce', 'exp', 'iat']
+      ),
+      JWTIssuerAssertion(this.opts.issuer),
+      JWTNonceAssertion(nonce),
+      JWTAlgAssertion('RS256'),
+      JWTAudAssertion([this.opts.client_id]),
+      JWTExpAssertion(true),
+      JWTNbfAssertion(false),
+      JWTIatAssertion()
+      // todo: consider supporting max page
+      // JWTAuthTimeAssertion(null)
+    )
+
+    return null
+  }
+
+  // _authorizeUrl builds a URL to perform an authorization code request.
+  private _authorizeUrl(req: AuthorizationRequest) {
+    return `${this.opts.authorization_endpoint}?${createQueryString(req)}`
+  }
+
+  // _cacheFactory factories a cache instance by given type
+  private _cacheFactory(type: string): ICache {
+    switch (type) {
+      case CACHE_INMEM:
+        return new InmemCache()
+      case CACHE_LS:
+        return new LocalStorageCache({ purgeOnInit: true })
+      case CACHE_SS:
+        return new SessionStorageCache({ purgeOnInit: true })
+      default:
+        throw new Error(`Invalid cache type "${type}"`)
+    }
+  }
+
+  // _cacheTokens caches the given tokens
+  private _cacheTokens(
+    idToken: DecodedJWT<IDToken>,
+    accessToken: DecodedJWT<JWTClaims>,
+    refreshToken?: string
+  ) {
+    const accessTokenTTL = this._ttlFromToken(accessToken)
+    this._cacheToken(
+      'access_token',
+      accessToken,
+      this.opts.client_id,
+      accessToken.payload.aud,
+      accessToken.payload.scp,
+      accessTokenTTL
+    )
+
+    this._cacheToken(
+      'id_token',
+      idToken,
+      this.opts.client_id,
+      accessToken.payload.aud,
+      accessToken.payload.scp || [],
+      this._ttlFromToken(idToken)
+    )
+
+    if (refreshToken) {
+      this._cacheToken(
+        'refresh_token',
+        refreshToken,
+        this.opts.client_id,
+        accessToken.payload.aud,
+        accessToken.payload.scp,
+        // todo: this should be based on token response or a client opt
+        86400 * 5
+      )
+    }
+  }
+
+  // _cacheToken caches a single token.
+  private _cacheToken(
+    tokType: tokenTypes,
+    tok: any,
+    client_id: string,
+    audience: string[],
+    scope: string[],
+    ttl: number
+  ) {
+    const key = this._cacheKey({
+      tokType,
+      client_id,
+      audience,
+      scope,
+    })
+
+    this.cache.set(key, tok, { ttl })
+
+    // this method currently handles single aud only
+    const aud = [audience[0]]
+    let idx = this.cache.get(CACHE_IDX_KEY)
+    if (!idx) idx = {}
+
+    aud.forEach((u) => {
+      if (!idx[u]) idx[u] = {}
+      let audIdx = idx[u]
+      scope.forEach((s) => {
+        if (!audIdx[s]) audIdx[s] = []
+        audIdx[s].push(key)
+      })
+    })
+
+    this.cache.set(CACHE_IDX_KEY, idx)
+  }
+
+  // _cacheKey builds a unique identifier for a token to be cached.
+  private _cacheKey({
+    tokType,
+    client_id,
+    audience,
+    scope,
+  }: {
+    tokType: tokenTypes
+    client_id: string
+    audience: string[]
+    scope: string[]
+  }) {
+    let scpStr
+    if (scope && scope.length) {
+      scope.sort()
+      scpStr = scope.join(SPLIT_SEP)
+    }
+    return [
+      'crossid-spa-js',
+      tokType,
+      client_id,
+      audience.join(SPLIT_SEP),
+      scpStr,
+    ].join(KEY_SEP)
+  }
+
+  // _decodeKey decodes key into a structure.
+  private _decodeKey(key: string) {
+    const parts = key.split(KEY_SEP)
+    const k = parts[1]
+    const aud = parts[2]
+    const scp = parts[3]
+
+    let kt: tokenTypes
+    switch (k) {
+      case 'access_token': {
+        kt = 'access_token'
+      }
+      case 'id_token': {
+        kt = 'id_token'
+      }
+      case 'refresh_token': {
+        kt = 'refresh_token'
+      }
+    }
+
+    return {
+      tokenType: k,
+      audience: aud.split(SPLIT_SEP),
+      scope: scp.split(SPLIT_SEP),
+    }
+  }
+
+  // _getTokensKeysFromCache returns key names that matches the given criteria.
+  private _getTokensKeysFromCache(
+    tokType: tokenTypes,
+    aud: string[],
+    scp: string[]
+  ): string[] {
+    let idx = this.cache.get(CACHE_IDX_KEY) || {}
+    // this method currently handles single aud only
+    const aud1 = aud[0]
+    const audIdx = idx[aud1]
+    if (!audIdx) return []
+
+    let inter
+    for (const s of scp) {
+      if (!audIdx[s] || !audIdx[s].length) {
+        return []
+      }
+
+      if (!inter) {
+        inter = audIdx[s].filter(
+          (k) => this._decodeKey(k).tokenType === tokType
+        )
+        continue
+      }
+
+      inter = inter.filter((value) => audIdx[s].includes(value))
+    }
+
+    return inter
+  }
+
+  // _getNarrowedKey selects a single key from given candidate keys.
+  private _getNarrowedKey<T extends any>(keys: string[]): T {
+    for (let i in keys) {
+      const entry = this.cache.get<T>(keys[i])
+      if (!entry) {
+        // expired or index of out sync
+        continue
+      }
+
+      // todo improve this by returning the most narrowed key
+      return entry
+    }
+  }
+
+  // _ttlFromToken returns the ttl of a token in seconds.
+  private _ttlFromToken(tok: DecodedJWT<JWTClaims>) {
+    return (new Date(tok.payload.exp * 1e3).getTime() - Date.now()) / 1e3
+  }
+
+  // _purgeIndex syncs index keys with the actual cache state.
+  private _purgeIndex() {
+    const idx = this.cache.get(CACHE_IDX_KEY)
+    if (!idx) {
+      return
+    }
+    for (const [aud, scp] of Object.entries(idx)) {
+      for (const [s, keys] of Object.entries<string[]>(scp)) {
+        const purgeIdx = []
+        for (let i = 0; i < keys.length; i++) {
+          if (!this.cache.get(keys[i])) {
+            purgeIdx.push(i)
+          }
+        }
+        idx[aud][s] = keys.filter((_, i) => purgeIdx.indexOf(i) === -1)
+        if (!idx[aud][s].length) {
+          delete idx[aud][s]
+        }
+      }
+      if (!Object.keys(idx[aud]).length) {
+        delete idx[aud]
+      }
+    }
+    this.cache.set(CACHE_IDX_KEY, idx)
+  }
+}

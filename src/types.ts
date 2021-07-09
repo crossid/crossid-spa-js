@@ -73,3 +73,43 @@ export interface IDToken extends JWTClaims, IDTokenStandardClaims {
   // custom
   [key: string]: any
 }
+
+export interface AuthorizationRequest {
+  client_id: string
+  audience: string[]
+  response_type: string
+  redirect_uri: string
+  nonce: string
+  state: string
+  scope: string
+  code_challenge: string
+  code_challenge_method: string
+}
+
+// AuthorizationCodeData returns the data required in order to process an authorization code request
+export interface AuthorizationCodeData {
+  // request is the data required in order to perform an aithorization code request
+  request: AuthorizationRequest
+  // code_verifier is the PKCE code verifier (in plain test)
+  code_verifier: string
+  // appState is the state given from app by AuthorizationOpts
+  appState: string
+}
+
+// AuthorizationState is a state that is cached between authorization steps.
+export interface AuthorizationState {
+  audience: string[]
+  redirect_uri: string
+  scope: string
+  nonce: string
+  code_verifier: string
+  state?: string
+  tenantId?: string
+}
+
+/**
+ * Returned upon completion of a login process.
+ */
+export interface LoginCompleteResponse {
+  state: string
+}
