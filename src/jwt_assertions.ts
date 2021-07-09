@@ -45,7 +45,7 @@ export const JWTAlgAssertion = (exp: 'RSA256' | 'HS256'): JWTAssertion => {
 
 // JWTAudAssertion asserts the aud claim
 // according to OIDC spec the audience may be a string or an array of strings
-export const JWTAudAssertion = (exp: string[]): JWTAssertion => {
+export const JWTAudAssertion = (exp: string[] = []): JWTAssertion => {
   return <C extends JWTClaims>(jwt: DecodedJWT<C>) => {
     if (!jwt.payload.aud || !jwt.payload.aud.length) {
       return 'Audience (aud) claim must be a present string'
@@ -124,6 +124,9 @@ export const JWTAuthTimeAssertion = (
   leeway: number = 40
 ): JWTAssertion => {
   return <C extends JWTClaims>(jwt: DecodedJWT<C>) => {
+    if (!maxAge) {
+      return null
+    }
     // by spec: When max_age is used, the ID Token returned MUST include an auth_time Claim Value
     if (!isNumber(jwt.payload.auth_time)) {
       return `Authentication Time (auth_time) claim must be a present number`
