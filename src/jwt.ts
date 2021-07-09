@@ -53,7 +53,7 @@ export const assert = <C extends JWTClaims>(
 ) => {
   const errs = assertions.map((a) => a(jwt)).filter((v) => v !== null)
   if (errs && errs.length) {
-    throw new JWTAssertionsError(errs)
+    throw new JWTAssertionsError(errs, errs.join(','))
   }
 
   return null
