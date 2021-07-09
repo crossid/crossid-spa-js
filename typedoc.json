@@ -1,0 +1,12 @@
+{
+  "entryPoints": ["src/index.ts"],
+  "out": "docs",
+  "excludePrivate": true,
+  "hideGenerator": true,
+  "toc": [
+    "newCrossidClient",
+    "newCrossidClientByDiscovery",
+    "newCrossidClientCustom",
+    "Client"
+  ]
+}

@@ -3,6 +3,9 @@
   "version": "0.0.1",
   "description": "",
   "main": "index.js",
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "start": "concurrently \"npm run dev\" \"npm run dev:server\"",
     "build": "rimraf dist && rollup -m -c --environment NODE_ENV:production",
@@ -10,7 +13,8 @@
     "dev": "rimraf dist && rollup -c --watch",
     "test": "jest --coverage --silent",
     "test:watch": "jest --coverage --silent --watch",
-    "format": "prettier --config .prettierrc 'src/**/*.ts' --write"
+    "format": "prettier --config .prettierrc 'src/**/*.ts' --write",
+    "docs": "typedoc --out docs src/index.ts"
   },
   "author": "Crossid",
   "license": "MIT",
@@ -28,6 +32,7 @@
     "prettier": "^2.3.2",
     "rollup-plugin-terser": "^7.0.2",
     "ts-jest": "^27.0.3",
+    "typedoc": "^0.21.2",
     "typescript": "^4.3.4"
   }
 }
