@@ -11,7 +11,7 @@ import {
 } from '../src/jwt_assertions'
 import { IDToken } from '../src/types'
 
-const header = { alg: 'RSA256', typ: 'JWT' }
+const header = { alg: 'RS256', typ: 'JWT' }
 describe('JWTRequiredClaimsAssertion', () => {
   test('ok', () => {
     const claims: Partial<IDToken> = { iss: 'foo' }
@@ -21,7 +21,7 @@ describe('JWTRequiredClaimsAssertion', () => {
         ['iss']
       )({
         payload: claims,
-        header: { alg: 'RSA256', typ: 'JWT' },
+        header: { alg: 'RS256', typ: 'JWT' },
       })
     ).toBe(null)
   })
@@ -34,7 +34,7 @@ describe('JWTRequiredClaimsAssertion', () => {
         ['sub']
       )({
         payload: claims,
-        header: { alg: 'RSA256', typ: 'JWT' },
+        header: { alg: 'RS256', typ: 'JWT' },
       })
     ).toContain('sub')
   })
@@ -67,7 +67,7 @@ describe('JWTNonceAssertion', () => {
 
 describe('JWTAlgAssertion', () => {
   test('match', () => {
-    expect(JWTAlgAssertion('RSA256')({ payload: {}, header })).toBe(null)
+    expect(JWTAlgAssertion('RS256')({ payload: {}, header })).toBe(null)
   })
 
   test('mismatch', () => {

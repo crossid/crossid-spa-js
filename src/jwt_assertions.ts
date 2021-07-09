@@ -37,7 +37,7 @@ export const JWTNonceAssertion = (exp: string): JWTAssertion => {
 }
 
 // JWTAlgAssertion asserts that the token's alg header is the expected one
-export const JWTAlgAssertion = (exp: 'RSA256' | 'HS256'): JWTAssertion => {
+export const JWTAlgAssertion = (exp: 'RS256' | 'HS256'): JWTAssertion => {
   return <C extends JWTClaims>(jwt: DecodedJWT<C>) => {
     return eqErr('Issuer (iss) claim', exp, jwt.header.alg)
   }

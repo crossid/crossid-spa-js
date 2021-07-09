@@ -3,9 +3,8 @@
  */
 import { assert, decode } from '../src/jwt'
 import { DecodedJWT, IDToken, JWTClaims, JWTHeader } from '../src/types'
-import * as jwt from 'jsonwebtoken'
-import * as pem from 'pem'
 import { TextEncoder } from 'util'
+import { createJWT } from './helper'
 global.TextEncoder = TextEncoder
 
 describe('decode', () => {
@@ -67,45 +66,3 @@ describe('verify', () => {
     ).toThrow()
   })
 })
-
-// utils
-//
-interface Cert {
-  cert: string
-  publicKey: string
-  serviceKey: string
-}
-
-const createCert = (): Promise<Cert> =>
-  new Promise((res, rej) => {
-    pem.createCertificate({ days: 1, selfSigned: true }, function (err, keys) {
-      if (err) {
-        return rej(err)
-      }
-
-      pem.getPublicKey(keys.certificate, function (err, p) {
-        if (err) {
-          return rej(err)
-        }
-        res({
-          serviceKey: keys.serviceKey,
-          cert: keys.certificate,
-          publicKey: p.publicKey,
-        })
-      })
-    })
-  })
-
-const createJWT = async <C extends JWTClaims>({
-  header,
-  payload,
-}: {
-  header: JWTHeader
-  payload: C
-}) => {
-  const cert = await createCert()
-  return jwt.sign(payload, cert.serviceKey, {
-    algorithm: header.alg,
-    // expiresIn: '5m',
-  })
-}
