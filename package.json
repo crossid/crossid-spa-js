@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "files": [
-    "dist"
+    "dist",
+    "dist/*.{js,ts,map}"
   ],
   "scripts": {
     "start": "concurrently \"npm run dev\" \"npm run dev:server\"",
