@@ -84,7 +84,7 @@ export interface ClientCrossidOpts extends BaseClientOpts {
   /**
    * your org crossid tenant name registered at [crossid.io](https://crossid.io)
    */
-  tenant: string
+  tenant_id: string
 
   /**
    * custom authorization server, defaults to `default`
