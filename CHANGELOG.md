@@ -1,5 +1,13 @@
 # @crossid/crossid-spa-js
 
+## 0.0.3
+
+[All Changes](https://github.com/crossid/crossid-spa-js/compare/v0.0.2...v0.0.3)
+
+### Minor Changes
+
+- Fixes for cicd to build before publish.
+
 ## 0.0.2
 
 [All Changes](https://github.com/crossid/crossid-spa-js/compare/v0.0.1...v0.0.2)
