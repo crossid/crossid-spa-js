@@ -11,6 +11,11 @@ export default (async () => ({
       dir: 'dist',
       format: 'esm',
     },
+    {
+      name: 'crossid',
+      file: 'dist/crossid-spa-js.js',
+      format: 'umd',
+    },
   ],
   plugins: [
     resolve(),
