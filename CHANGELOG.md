@@ -1,5 +1,13 @@
 # @crossid/crossid-spa-js
 
+## 0.0.2
+
+[All Changes](https://github.com/crossid/crossid-spa-js/compare/v0.0.1...v0.0.2)
+
+### Minor Changes
+
+- Update various properties in `package.json` required in order to publish npm package properly.
+
 ## 0.0.1
 
 [All Changes](https://github.com/crossid/crossid-spa-js/compare/2e4949a...v0.0.1)

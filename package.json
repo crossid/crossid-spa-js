@@ -1,6 +1,6 @@
 {
   "name": "@crossid/crossid-spa-js",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "",
   "main": "dist/crossid-spa-js.js",
   "types": "dist/index.d.ts",
