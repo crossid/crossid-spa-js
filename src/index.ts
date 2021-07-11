@@ -3,6 +3,9 @@ import Client, {
   ClientCrossidOpts,
   ClientDiscoveryOpts,
   ClientOpts,
+  GetUserOpts,
+  GetAccessTokenOpts,
+  AuthorizationOpts,
 } from './client'
 import { CROSSID_DEFAULT_AUTHORIZATION_SERVER } from './const'
 
@@ -62,4 +65,13 @@ export async function newCrossidClientCustom(opts: ClientOpts) {
   return crossid
 }
 
-export { Client, IDToken }
+export {
+  Client,
+  IDToken,
+  ClientOpts,
+  ClientDiscoveryOpts,
+  ClientCrossidOpts,
+  GetUserOpts,
+  GetAccessTokenOpts,
+  AuthorizationOpts,
+}
