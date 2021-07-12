@@ -62,21 +62,48 @@
 					<h1>@crossid/crossid-spa-js <a href="https://www.npmjs.com/package/@crossid/crossid-spa-js"><img src="https://img.shields.io/npm/v/@crossid/crossid-spa-js?style=flat" alt="npm version"></a> <a href="https://github.com/crossid/crossid-spa-js/actions/workflows/test.yml"><img src="https://github.com/crossid/crossid-spa-js/actions/workflows/test.yml/badge.svg" alt="Test"></a> <a href="https://reactjs.org/docs/how-to-contribute.html#your-first-pull-request"><img src="https://img.shields.io/badge/PRs-welcome-brightgreen.svg" alt="PRs Welcome"></a> <a href="https://github.com/crossid/crossid-spa-js/blob/main/LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="GitHub license"></a></h1>
 				</a>
 				<p>OAuth2 and OIDC SDK for a single page application (SPA), using the authorization code flow with PKCE extension.</p>
-				<a href="#documentation" id="documentation" style="color: inherit; text-decoration: none;">
-					<h2>Documentation</h2>
+				<a href="#get-started" id="get-started" style="color: inherit; text-decoration: none;">
+					<h2>Get Started</h2>
 				</a>
-				<ul>
-					<li><a href="https://crossid.github.io/crossid-spa-js/">API Reference</a></li>
-				</ul>
-				<a href="#installation" id="installation" style="color: inherit; text-decoration: none;">
-					<h2>Installation</h2>
-				</a>
+				<p>Install by:</p>
 				<p>npm:</p>
 				<pre><code class="language-sh"><span style="color: #000000">npm install @crossid/crossid-spa-js</span>
 </code></pre>
 				<p>yarn:</p>
 				<pre><code class="language-sh"><span style="color: #000000">yarn add @crossid/crossid-spa-js</span>
 </code></pre>
+				<p>Init a <a href="https://crossid.github.io/crossid-spa-js/classes/client.html">client</a>:</p>
+				<pre><code class="language-js"><span style="color: #AF00DB">import</span><span style="color: #000000"> { </span><span style="color: #001080">newCrossidClient</span><span style="color: #000000">, </span><span style="color: #001080">Client</span><span style="color: #000000"> } </span><span style="color: #AF00DB">from</span><span style="color: #000000"> </span><span style="color: #A31515">&#039;@crossid/crossid-spa-js&#039;</span>
+<span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">crossid</span><span style="color: #000000"> = </span><span style="color: #795E26">newCrossidClient</span><span style="color: #000000">({</span>
+<span style="color: #000000">  </span><span style="color: #008000">// your crossid tenant</span>
+<span style="color: #000000">  </span><span style="color: #001080">tenant_id:</span><span style="color: #000000"> </span><span style="color: #A31515">&#039;indexia&#039;</span><span style="color: #000000">,</span>
+<span style="color: #000000">  </span><span style="color: #001080">client_id:</span><span style="color: #000000"> </span><span style="color: #A31515">&#039;my-client-id&#039;</span><span style="color: #000000">,</span>
+<span style="color: #000000">  </span><span style="color: #001080">audience:</span><span style="color: #000000"> [</span><span style="color: #A31515">&#039;example.com&#039;</span><span style="color: #000000">],</span>
+<span style="color: #000000">  </span><span style="color: #001080">scope:</span><span style="color: #000000"> </span><span style="color: #A31515">&#039;openid profile&#039;</span><span style="color: #000000">,</span>
+<span style="color: #000000">  </span><span style="color: #001080">redirect_uri:</span><span style="color: #000000"> </span><span style="color: #A31515">&#039;http://localhost:3009&#039;</span><span style="color: #000000">,</span>
+<span style="color: #000000">  </span><span style="color: #008000">// use session_storage or local_storage for a persistent cache.</span>
+<span style="color: #000000">  </span><span style="color: #001080">cache_type:</span><span style="color: #000000"> </span><span style="color: #A31515">&#039;memory&#039;</span><span style="color: #000000">,</span>
+<span style="color: #000000">})</span>
+</code></pre>
+				<p>note: the example above shows how to connect to a <a href="https://crossid.io">crossid</a> tenant but this library can work with any OIDC authorization server that supports the PKCE extension. See <a href="https://crossid.github.io/crossid-spa-js/modules.html#newcrossidclientbydiscovery">newCrossidClientByDiscovery</a> and <a href="https://crossid.github.io/crossid-spa-js/modules.html#newcrossidclientcustom">newCrossidClientCustom</a>.</p>
+				<p>To sign user in, call <code>crossid.loginWithRedirect({})</code> to redirect browser to the authprization server login page.
+				This function is typically bound to a button.</p>
+				<p>Once signing the user in completes successfully, the user will be redirected to the location specified in <code>redirect_uri</code>.</p>
+				<p>At this point, the signing in process must be completed by running the <code>crossid.handleRedirectCallback()</code> function which will take care of completing the flow and caching the tokens.</p>
+				<p>To get an access token, which can be used to access your API:</p>
+				<pre><code class="language-js"><span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">token</span><span style="color: #000000"> = </span><span style="color: #AF00DB">await</span><span style="color: #000000"> </span><span style="color: #001080">client</span><span style="color: #000000">.</span><span style="color: #795E26">getAccessToken</span><span style="color: #000000">()</span>
+</code></pre>
+				<p>To get the authenticated user:</p>
+				<pre><code class="language-js"><span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">user</span><span style="color: #000000"> = </span><span style="color: #AF00DB">await</span><span style="color: #000000"> </span><span style="color: #001080">client</span><span style="color: #000000">.</span><span style="color: #795E26">getUser</span><span style="color: #000000">()</span>
+</code></pre>
+				<p>For a working example, see <a href="https://github.io/crossid/crossid-spa-js-example">example repo</a>.</p>
+				<a href="#documentation" id="documentation" style="color: inherit; text-decoration: none;">
+					<h2>Documentation</h2>
+				</a>
+				<ul>
+					<li><a href="https://github.io/crossid/crossid-spa-js-example">Example Repo</a></li>
+					<li><a href="https://crossid.github.io/crossid-spa-js/">API Reference</a></li>
+				</ul>
 				<a href="#bugs-and-feature-requests" id="bugs-and-feature-requests" style="color: inherit; text-decoration: none;">
 					<h2>Bugs and feature requests</h2>
 				</a>
@@ -85,6 +112,23 @@
 					<h2>Contributing</h2>
 				</a>
 				<p>The main purpose of this repository is to continue evolving <em>crossid-spa-js</em>, making it more secure and easier to use. Development of this library happens in the open on GitHub, and we are grateful to the community for contributing bugfixes and improvements. Read below to learn how you can take part in improving <em>crossid-spa-js</em>.</p>
+				<a href="#reporting-a-vulnerability" id="reporting-a-vulnerability" style="color: inherit; text-decoration: none;">
+					<h2>Reporting a Vulnerability</h2>
+				</a>
+				<p>The Crossid team takes security issues very seriously. We appreciate your efforts to responsibly disclose your findings, and will make every effort to acknowledge your contributions.</p>
+				<p>To report a security issue, email <a href="mailto:security@crossid.io">security@crossid.io</a>.</p>
+				<p>We&#39;ll endeavor to respond quickly, and will keep you updated throughout the process.</p>
+				<a href="#what-is-crossid" id="what-is-crossid" style="color: inherit; text-decoration: none;">
+					<h2>What is Crossid?</h2>
+				</a>
+				<p>Crossid can:</p>
+				<ul>
+					<li>Sign users in using various <em>passwordless</em> authentication factors (e.g., <em>otp</em>, <em>fingerprint</em>, etc...)</li>
+					<li>Sign users in via social providers (e,g. <em>Facebook</em>) or enterprise providers (e.g., <em>Azure</em>)</li>
+					<li>Multi factor authentication.</li>
+					<li>Issue signed OAuth2 and Openid-Connect access tokens to protect API calls.</li>
+					<li>Manage user profiles and access.</li>
+				</ul>
 				<a href="#license" id="license" style="color: inherit; text-decoration: none;">
 					<h2>License</h2>
 				</a>
