@@ -2,12 +2,9 @@
 
 OAuth2 and OIDC SDK for a single page application (SPA), using the authorization code flow with PKCE extension.
 
-## Documentation
+## Get Started
 
-- [Demo App](https://github.io/crossid/crossid-spa-js-demo)
-- [API Reference](https://crossid.github.io/crossid-spa-js/)
-
-## Installation
+Install by:
 
 npm:
 
@@ -20,6 +17,50 @@ yarn:
 ```sh
 yarn add @crossid/crossid-spa-js
 ```
+
+Init a [client](https://crossid.github.io/crossid-spa-js/classes/client.html):
+
+```js
+import { newCrossidClient, Client } from '@crossid/crossid-spa-js'
+const crossid = newCrossidClient({
+  // your crossid tenant
+  tenant_id: 'indexia',
+  client_id: 'my-client-id',
+  audience: ['example.com'],
+  scope: 'openid profile',
+  redirect_uri: 'http://localhost:3009',
+  // use session_storage or local_storage for a persistent cache.
+  cache_type: 'memory',
+})
+```
+
+note: the example above shows how to connect to a [crossid](https://crossid.io) tenant but this library can work with any OIDC authorization server that supports the PKCE extension. See [newCrossidClientByDiscovery](https://crossid.github.io/crossid-spa-js/modules.html#newcrossidclientbydiscovery) and [newCrossidClientCustom](https://crossid.github.io/crossid-spa-js/modules.html#newcrossidclientcustom).
+
+To sign user in, call `crossid.loginWithRedirect({})` to redirect browser to the authprization server login page.
+This function is typically bound to a button.
+
+Once signing the user in completes successfully, the user will be redirected to the location specified in `redirect_uri`.
+
+At this point, the signing in process must be completed by running the `crossid.handleRedirectCallback()` function which will take care of completing the flow and caching the tokens.
+
+To get an access token, which can be used to access your API:
+
+```js
+const token = await client.getAccessToken()
+```
+
+To get the authenticated user:
+
+```js
+const user = await client.getUser()
+```
+
+For a working example, see [example repo](https://github.io/crossid/crossid-spa-js-example).
+
+## Documentation
+
+- [Example Repo](https://github.io/crossid/crossid-spa-js-example)
+- [API Reference](https://crossid.github.io/crossid-spa-js/)
 
 ## Bugs and feature requests
 
