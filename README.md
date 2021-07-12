@@ -55,11 +55,11 @@ To get the authenticated user:
 const user = await client.getUser()
 ```
 
-For a working example, see [example repo](https://github.io/crossid/crossid-spa-js-example).
+For a working example, see [example repo](https://github.com/crossid/crossid-spa-js-example).
 
 ## Documentation
 
-- [Example Repo](https://github.io/crossid/crossid-spa-js-example)
+- [Example Repo](https://github.com/crossid/crossid-spa-js-example)
 - [API Reference](https://crossid.github.io/crossid-spa-js/)
 
 ## Bugs and feature requests
