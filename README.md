@@ -28,6 +28,24 @@ Have a bug, feature request or feedback? Please first search for existing and cl
 
 The main purpose of this repository is to continue evolving _crossid-spa-js_, making it more secure and easier to use. Development of this library happens in the open on GitHub, and we are grateful to the community for contributing bugfixes and improvements. Read below to learn how you can take part in improving _crossid-spa-js_.
 
+## Reporting a Vulnerability
+
+The Crossid team takes security issues very seriously. We appreciate your efforts to responsibly disclose your findings, and will make every effort to acknowledge your contributions.
+
+To report a security issue, email [security@crossid.io](mailto:security@crossid.io).
+
+We'll endeavor to respond quickly, and will keep you updated throughout the process.
+
+## What is Crossid?
+
+Crossid can:
+
+- Sign users in using various _passwordless_ authentication factors (e.g., _otp_, _fingerprint_, etc...)
+- Sign users in via social providers (e,g. _Facebook_) or enterprise providers (e.g., _Azure_)
+- Multi factor authentication.
+- Issue signed OAuth2 and Openid-Connect access tokens to protect API calls.
+- Manage user profiles and access.
+
 ## License
 
 This project is licensed under the [MIT license](./LICENSE).
