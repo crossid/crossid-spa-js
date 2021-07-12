@@ -4,6 +4,7 @@ OAuth2 and OIDC SDK for a single page application (SPA), using the authorization
 
 ## Documentation
 
+- [Demo App](https://github.io/crossid/crossid-spa-js-demo)
 - [API Reference](https://crossid.github.io/crossid-spa-js/)
 
 ## Installation
