@@ -20,6 +20,13 @@
   },
   "author": "Crossid",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/crossid/crossid-spa-js.git"
+  },
+  "bugs": {
+    "url": "https://github.com/crossid/crossid-spa-js/issues"
+  },
   "devDependencies": {
     "@peculiar/webcrypto": "^1.1.7",
     "@rollup/plugin-commonjs": "^19.0.0",
