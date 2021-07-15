@@ -1,5 +1,13 @@
 # @crossid/crossid-spa-js
 
+## 0.0.5
+
+[All Changes](https://github.com/crossid/crossid-spa-js/compare/v0.0.4...v0.0.5)
+
+### Minor Changes
+
+- Remove required `typ` token header as some providers don't support this.
+
 ## 0.0.4
 
 [All Changes](https://github.com/crossid/crossid-spa-js/compare/v0.0.3...v0.0.4)
