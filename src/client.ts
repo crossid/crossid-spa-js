@@ -384,10 +384,7 @@ export default class CrossidClient {
   private _assertAccessToken(token: DecodedJWT<JWTClaims>, aud: string[]) {
     assert(
       token,
-      JWTRequiredClaimsAssertion(
-        ['alg', 'typ'],
-        ['iss', 'sub', 'aud', 'exp', 'iat']
-      ),
+      JWTRequiredClaimsAssertion(['alg'], ['iss', 'sub', 'aud', 'exp', 'iat']),
       JWTIssuerAssertion(this.opts.issuer),
       JWTAlgAssertion('RS256'),
       JWTAudAssertion(aud),
@@ -401,7 +398,7 @@ export default class CrossidClient {
     assert(
       token,
       JWTRequiredClaimsAssertion(
-        ['alg', 'typ'],
+        ['alg'],
         ['iss', 'sub', 'aud', 'nonce', 'exp', 'iat']
       ),
       JWTIssuerAssertion(this.opts.issuer),
