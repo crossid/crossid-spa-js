@@ -19,6 +19,15 @@
     "docs": "typedoc --out docs src/index.ts"
   },
   "author": "Crossid",
+  "keywords": [
+    "crossid",
+    "signin",
+    "login",
+    "openid",
+    "OIDC",
+    "OAuth2",
+    "PKCE"
+  ],
   "license": "MIT",
   "repository": {
     "type": "git",
