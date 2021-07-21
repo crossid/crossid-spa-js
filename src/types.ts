@@ -74,6 +74,13 @@ export interface IDToken extends JWTClaims, IDTokenStandardClaims {
   [key: string]: any
 }
 
+export interface Claim {
+  values: string[],
+  essential: boolean
+}
+
+export interface Claims  { [name: string]: Claim }
+
 export interface AuthorizationRequest {
   client_id: string
   audience: string[]
@@ -84,6 +91,8 @@ export interface AuthorizationRequest {
   scope: string
   code_challenge: string
   code_challenge_method: string
+  acr_values: string,
+  claims: Claims
 }
 
 // AuthorizationCodeData returns the data required in order to process an authorization code request

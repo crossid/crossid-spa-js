@@ -14,6 +14,7 @@ import {
   IDToken,
   JWTClaims,
   LoginCompleteResponse,
+  Claims
 } from './types'
 import { generatePKCECodeVerifier, sha256 } from './crypto'
 import { base64Encode, base64URLEncode, bufferToBase64URLEncode } from './codec'
@@ -59,6 +60,18 @@ interface BaseAuthorizationCodeParams {
    * Defines the requested scopes.
    */
   scope: string
+
+  /**
+   * A space seperated value list of either "mfa" or FactorIds
+   */
+  acr_values: string,
+
+  /**
+   * Extra claims to attack to the token.
+   * Currently only tx_id is supported
+   */
+  
+  claims: Claims
 }
 
 /**
@@ -334,6 +347,8 @@ export default class CrossidClient {
       state,
       nonce,
       code_challenge,
+      acr_values: opts.acr_values,
+      claims: opts.claims
     }
 
     const request = this._mergeAuthorizationCodeParams(params)
@@ -377,6 +392,8 @@ export default class CrossidClient {
       scope: opts.scope || this.opts.scope,
       code_challenge: opts.code_challenge,
       code_challenge_method: 'S256',
+      acr_values: opts.acr_values,
+      claims: opts.claims
     }
   }
 
