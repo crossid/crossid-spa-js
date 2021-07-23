@@ -4,6 +4,7 @@
 import { TextEncoder } from 'util'
 import { Crypto } from '@peculiar/webcrypto'
 import { mockCodeToTokenFetch, setup } from './helper'
+import { BEARER_CLAIM } from '../../src/const'
 global.crypto = new Crypto()
 global.TextEncoder = TextEncoder
 
@@ -22,10 +23,10 @@ describe('getUser', () => {
     url.searchParams.append('code', 'mocked-code')
     global.fetch = await mockCodeToTokenFetch({ nonce, expiresIn: 1 })
     await cid.handleRedirectCallback(url)
-    expect(await cid.getUser()).toHaveProperty(
-      'family_name',
-      'jared@example.com'
-    )
+    const u = await cid.getUser()
+    expect(u).toHaveProperty('family_name', 'jared@example.com')
+    expect(u[BEARER_CLAIM]).toBeDefined()
+
     await new Promise((res) => setTimeout(res, 1100))
     // expired
     expect(await cid.getUser()).toBeUndefined()

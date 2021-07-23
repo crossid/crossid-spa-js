@@ -88,7 +88,7 @@ export interface AuthorizationRequest {
 
 // AuthorizationCodeData returns the data required in order to process an authorization code request
 export interface AuthorizationCodeData {
-  // request is the data required in order to perform an aithorization code request
+  // request is the data required in order to perform an authorization code request
   request: AuthorizationRequest
   // code_verifier is the PKCE code verifier (in plain test)
   code_verifier: string
@@ -111,5 +111,40 @@ export interface AuthorizationState {
  * Returned upon completion of a login process.
  */
 export interface LoginCompleteResponse {
+  state: string
+}
+
+export interface LogoutRequest {
+  id_token_hint?: string
+
+  post_logout_redirect_uri?: string
+
+  state?: string
+}
+
+// LogoutData returns the data required in order to process a logout request
+export interface LogoutData {
+  // request is the data required in order to perform a logout request
+  request: LogoutRequest
+  audience: string[]
+  scopes: string[]
+  // appState is the state given from app by LogoutOpts
+  appState: string
+}
+
+// AuthorizationState is a state that is cached between authorization steps.
+export interface LogoutState {
+  client_id: string
+  audience: string[]
+  scopes: string[]
+  post_logout_redirect_uri: string
+  state: string
+  appState: string
+}
+
+/**
+ * Returned upon completion of a logout flow.
+ */
+export interface LogoutCompleteResponse {
   state: string
 }

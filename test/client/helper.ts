@@ -7,6 +7,7 @@ import {
   TEST_AUTHORIZATION_ENDPOINT,
   TEST_CLIENT_ID,
   TEST_ISSUER,
+  TEST_LOGOUT_ENDPOINT,
   TEST_REDIRECT_URI,
   TEST_SCOPE,
   TEST_TOKEN_ENDPOINT,
@@ -17,6 +18,7 @@ export const createSetup = () => {
     const cl = new CrossidClient({
       authorization_endpoint: TEST_AUTHORIZATION_ENDPOINT,
       token_endpoint: TEST_TOKEN_ENDPOINT,
+      logout_endpoint: TEST_LOGOUT_ENDPOINT,
       client_id: TEST_CLIENT_ID,
       redirect_uri: TEST_REDIRECT_URI,
       issuer: TEST_ISSUER,

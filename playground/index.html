@@ -251,6 +251,36 @@
               </div>
             </div>
           </div>
+          <div class="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:pt-5">
+            <label
+              for="well_unknown"
+              class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"
+            >
+              Logout client only?
+            </label>
+            <div class="mt-1 sm:mt-0 sm:col-span-2">
+              <div key="logoutType" class="flex items-center h-5">
+                <input
+                  type="checkbox"
+                  v-model="logoutClientScope"
+                  class="
+                    focus:ring-indigo-500
+                    h-4
+                    w-4
+                    text-indigo-600
+                    border-gray-300
+                    rounded
+                  "
+                />
+                <label
+                  for="logoutType"
+                  class="ml-3 block text-sm font-medium text-gray-700"
+                >
+                  yes
+                </label>
+              </div>
+            </div>
+          </div>
           <div>
             <button
               @click="saveOptions"
@@ -406,6 +436,82 @@
               >
                 Get Access Token
               </button>
+              <button
+                @click="logout"
+                class="
+                  ml-3
+                  inline-flex
+                  justify-center
+                  py-2
+                  px-4
+                  border border-transparent
+                  shadow-sm
+                  text-sm
+                  font-medium
+                  rounded-md
+                  text-white
+                  bg-indigo-600
+                  hover:bg-indigo-700
+                  focus:outline-none
+                  focus:ring-2
+                  focus:ring-offset-2
+                  focus:ring-indigo-500
+                "
+              >
+                Logout
+              </button>
+              <button
+                @click="handleLogoutRedirectCallback"
+                class="
+                  ml-3
+                  inline-flex
+                  justify-center
+                  py-2
+                  px-4
+                  border border-transparent
+                  shadow-sm
+                  text-sm
+                  font-medium
+                  rounded-md
+                  text-white
+                  bg-indigo-600
+                  hover:bg-indigo-700
+                  focus:outline-none
+                  focus:ring-2
+                  focus:ring-offset-2
+                  focus:ring-indigo-500
+                "
+              >
+                <div
+                  v-if="stateInURL"
+                  class="
+                    absolute
+                    bottom-0
+                    flex flex-col
+                    items-center
+                    mb-10
+                    group-hover:flex
+                  "
+                >
+                  <span
+                    class="
+                      relative
+                      z-10
+                      p-2
+                      text-xs
+                      leading-none
+                      text-white
+                      whitespace-no-wrap
+                      bg-black
+                      shadow-lg
+                    "
+                    >Looks like we got a code, click to complete the
+                    login.</span
+                  >
+                  <div class="w-3 h-3 -mt-2 rotate-45 bg-black"></div>
+                </div>
+                Handle logout redirect callback
+              </button>
             </div>
           </div>
         </div>
@@ -546,6 +652,9 @@
             audienceInput: data.audience ? data.audience.join(' ') : '',
             selectedTab: data.selectedTab || 0,
             codeInURL: new URLSearchParams(window.location.search).has('code'),
+            stateInURL:
+              new URLSearchParams(window.location.search).has('state') &&
+              !new URLSearchParams(window.location.search).has('code'),
             cacheType: data.cacheType || 'memory',
             cacheTypes: [
               {
@@ -561,6 +670,10 @@
                 name: 'Session Storage',
               },
             ],
+            logoutClientScope:
+              data.logoutClientScope !== undefined
+                ? data.logoutClientScope
+                : true,
           }
         },
         computed: {
@@ -571,6 +684,13 @@
         created: async function () {
           this.initClient()
           this.loading = false
+
+          const qp = new URLSearchParams(window.location.search)
+          if (qp.has('error')) {
+            this.error = new Error(
+              qp.get('error_description') || qp.get('error')
+            )
+          }
         },
         methods: {
           clientOptions: function () {
@@ -655,6 +775,7 @@
                 audience: this.audience,
                 selectedTab: this.selectedTab,
                 cacheType: this.cacheType,
+                logoutClientScope: this.logoutClientScope,
               })
             )
             await this.initClient()
@@ -676,6 +797,19 @@
               this.error = e
             }
           },
+          handleLogoutRedirectCallback: async function () {
+            try {
+              await this.crossid.handleLogoutRedirectCallback()
+              window.history.replaceState(
+                {},
+                '',
+                window.location.origin + window.location.pathname
+              )
+              this.stateInURL = false
+            } catch (e) {
+              this.error = e
+            }
+          },
           getUser: async function () {
             const user = await this.crossid.getUser()
             this.user = user
@@ -683,6 +817,13 @@
           getAccessToken: async function () {
             const at = await this.crossid.getAccessToken()
             this.accessToken = at
+          },
+          logout: async function () {
+            this.crossid.logoutWithRedirect({
+              post_logout_redirect_uri: this.logoutClientScope
+                ? window.location.href
+                : undefined,
+            })
           },
         },
       })

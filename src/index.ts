@@ -6,6 +6,7 @@ import Client, {
   GetUserOpts,
   GetAccessTokenOpts,
   AuthorizationOpts,
+  LogoutOpts,
 } from './client'
 import { CROSSID_DEFAULT_AUTHORIZATION_SERVER } from './const'
 
@@ -31,6 +32,7 @@ export async function newCrossidClient(opts: ClientCrossidOpts) {
   copts.authorization_endpoint = wn.authorization_endpoint
   copts.token_endpoint = wn.token_endpoint
   copts.issuer = wn.issuer
+  copts.logout_endpoint = copts.issuer + 'logout'
   const client = new Client(copts)
   return client
 }
@@ -74,4 +76,5 @@ export {
   GetUserOpts,
   GetAccessTokenOpts,
   AuthorizationOpts,
+  LogoutOpts,
 }

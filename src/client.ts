@@ -1,4 +1,14 @@
-import { CACHE_INMEM, CACHE_LS, CACHE_SS } from './const'
+import {
+  BEARER_CLAIM,
+  CACHE_IDX_KEY,
+  CACHE_INMEM,
+  CACHE_LS,
+  CACHE_SS,
+  KEY_SEP,
+  LOGIN_STATE_KEY,
+  LOGOUT_STATE_KEY,
+  SPLIT_SEP,
+} from './const'
 import {
   ICache,
   InmemCache,
@@ -14,6 +24,10 @@ import {
   IDToken,
   JWTClaims,
   LoginCompleteResponse,
+  LogoutCompleteResponse,
+  LogoutData,
+  LogoutRequest,
+  LogoutState,
 } from './types'
 import { generatePKCECodeVerifier, sha256 } from './crypto'
 import { base64Encode, base64URLEncode, bufferToBase64URLEncode } from './codec'
@@ -31,12 +45,6 @@ import {
   JWTRequiredClaimsAssertion,
 } from './jwt_assertions'
 
-const SPLIT_SEP = '__'
-const KEY_SEP = '|'
-const CACHE_KEY_PREFIX = 'crossid-spa-js'
-const LOGIN_STATE_KEY = `${CACHE_KEY_PREFIX}${KEY_SEP}login`
-const CACHE_IDX_KEY = `${CACHE_KEY_PREFIX}${KEY_SEP}index`
-
 type tokenTypes = 'access_token' | 'id_token' | 'refresh_token'
 
 /**
@@ -53,6 +61,8 @@ interface BaseAuthorizationCodeParams {
   response_type: string
   /**
    * The URL is where authorization server will redirect browser upon a successful authentication.
+   *
+   * Please make sure to whitelist this URL in the authorization provider.
    */
   redirect_uri: string
   /**
@@ -110,6 +120,11 @@ export interface ClientOpts extends BaseClientOpts {
    * The expected issuer of the tokens.
    */
   issuer: string
+
+  /**
+   * the URL used to request a logout.
+   */
+  logout_endpoint: string
 }
 
 /**
@@ -166,6 +181,35 @@ export interface GetAccessTokenOpts {
 }
 
 /**
+ * Options for logging user out.
+ */
+export interface LogoutOpts {
+  /**
+   * The URL which the authorization provider will redirect the browser after a successful logout.
+   *
+   * Please make sure to whitelist this URL in the authorization provider.
+   */
+  post_logout_redirect_uri?: string
+
+  id_token_hint?: string
+
+  /**
+   * The scopes that were requested when authenticated.
+   */
+  scope?: string
+
+  /**
+   * The audience that were requested when authenticated.
+   */
+  audience?: string[]
+
+  /**
+   * state can be used by the application to preserve some state.
+   */
+  state?: string
+}
+
+/**
  * CrossidClient performs OAuth2 authorization code flow using the PKCE extension.
  * A typical application will only need a sigle instance of this client.
  * In more advanced cases, such as a single SPA app that requires interaction with multiple oauth2 clients,
@@ -189,11 +233,15 @@ export default class CrossidClient {
   // cache caches data such as user and tokens.
   private cache: ICache
 
-  // the name of the key when persisting a state.
-  private stateKey: string
+  // the name of the key when persisting a login state.
+  private loginStateKey: string
+
+  // the name of the key when persisting a logout state.
+  private logoutStateKey: string
 
   constructor(private opts: ClientOpts) {
-    this.stateKey = LOGIN_STATE_KEY
+    this.loginStateKey = LOGIN_STATE_KEY
+    this.logoutStateKey = LOGOUT_STATE_KEY
     this.scope = opts.scope
 
     this.state = new SessionStorageCache({ ttl: 5 * 60 })
@@ -252,7 +300,7 @@ export default class CrossidClient {
       throw new Error(error)
     }
 
-    const state = this.state.get<AuthorizationState>(this.stateKey)
+    const state = this.state.get<AuthorizationState>(this.loginStateKey)
     // this is the actual PKCE protection.
     if (!state?.code_verifier) {
       throw new Error('invalid state, try sign-in again')
@@ -269,8 +317,9 @@ export default class CrossidClient {
 
     const resp = await TokenEndpoint(tokenOptions)
     const idToken = decode<IDToken>(resp.id_token)
+    idToken.payload[BEARER_CLAIM] = resp.id_token
     const accessToken = decode<JWTClaims>(resp.access_token)
-    this.state.remove(this.stateKey)
+    this.state.remove(this.loginStateKey)
     this._assertAccessToken(accessToken, state.audience)
     this._assertIDToken(idToken, state.nonce)
     accessToken.payload._raw = resp.access_token
@@ -311,6 +360,86 @@ export default class CrossidClient {
     const keys = this._getTokensKeysFromCache('access_token', aud, scp)
     const tok = this._getNarrowedKey<DecodedJWT<JWTClaims>>(keys)
     return tok?.payload?._raw
+  }
+
+  /**
+   * Creates a redirect URL that can be used to start an logout flow.
+   *
+   * This method is useful when you want control over the actual redirection,
+   * if you want browser to be redirected, call `logoutWithRedirect` instead.
+   *
+   * ```js
+   * const url = createLogoutRedirectURL()
+   * window.location.assign(url)
+   * ```
+   *
+   * @param opts custom options that affects the logout flow.
+   * @returns a URL where the browser should be redirected to in order to logout.
+   */
+  public async createLogoutRedirectURL(opts: LogoutOpts = {}) {
+    const data = await this._createLogoutData(opts)
+
+    const req = data.request
+    // this means we'r not performing a logout for a specific client.
+    // in this flow we can't use state nor expect the AS to redirect back
+    // to the app so we must compelte auth here
+    // we also choose to wipe everything out if there's no post_logout_redirect_uri set as there will
+    // not be a chance for the app to complete the logout process
+    if (!req.id_token_hint || !opts.post_logout_redirect_uri) {
+      // todo: this deletes only tokens for the given audience and scopes, consider deleting ALL tokens instead.
+      this._removeTokens(data.audience, data.scopes)
+      return this._logoutUrl()
+    }
+
+    await this._persistLogoutData(data)
+    return this._logoutUrl(data.request)
+  }
+
+  /**
+   * Starts a logout by redirecting the current window.
+   *
+   * ```js
+   * logoutWithRedirect()
+   * ```
+   *
+   * @param opts options
+   */
+  public async logoutWithRedirect(opts: AuthorizationOpts) {
+    const url = await this.createLogoutRedirectURL(opts)
+    window.location.assign(url)
+  }
+
+  /**
+   * Call this method in order to complete logout flow.
+   * this method should be called after the End-User sucessfully logs out.
+   *
+   * note that this method only works if the logout was performed for a specific client.
+   *
+   * @param url the URL returned from the logout endpoint, defaults to `window.location.href`
+   * @returns
+   */
+  public async handleLogoutRedirectCallback(
+    url: URL = new URL(window.location.href)
+  ): Promise<LogoutCompleteResponse> {
+    const sp = url.searchParams
+    const stateqp = sp.get('state')
+    const error = sp.get('error')
+    if (error) {
+      throw new Error(error)
+    }
+
+    const state = this.state.get<LogoutState>(this.logoutStateKey)
+    // protect from CSRF
+    if (!state?.state || state.state !== stateqp) {
+      throw new Error('invalid state, try sign-in again')
+    }
+
+    this._removeTokens(state.audience, state.scopes)
+    this.state.remove(this.logoutStateKey)
+
+    return {
+      state: state.appState,
+    }
   }
 
   private async _createAuthorizationData(
@@ -360,7 +489,7 @@ export default class CrossidClient {
       code_verifier: data.code_verifier,
     }
 
-    this.state.set(this.stateKey, state)
+    this.state.set(this.loginStateKey, state)
   }
 
   // _mergeAuthorizationCodeParams merges opts with defaults
@@ -378,6 +507,47 @@ export default class CrossidClient {
       code_challenge: opts.code_challenge,
       code_challenge_method: 'S256',
     }
+  }
+
+  private async _createLogoutData(opts: LogoutOpts): Promise<LogoutData> {
+    const request: LogoutRequest = {
+      id_token_hint: opts.id_token_hint,
+      post_logout_redirect_uri: opts.post_logout_redirect_uri,
+    }
+
+    // try to detrmine id token hint from cache if hint is not specifically set to null
+    // which means that the consumer would like to perform a generic (non client specific) logout
+    if (!request.id_token_hint && request.id_token_hint !== null) {
+      const user = await this.getUser()
+      if (!!user && user[BEARER_CLAIM]) {
+        request.id_token_hint = user[BEARER_CLAIM]
+      }
+    }
+
+    if (!!request.id_token_hint) {
+      request.state = base64URLEncode(base64Encode(generatePKCECodeVerifier()))
+    }
+
+    return {
+      request,
+      audience: opts.audience || this.opts.audience,
+      scopes: (opts.scope || this.scope).split(' '),
+      appState: opts.state,
+    }
+  }
+
+  // _persistLogoutData saves the logout request state.
+  private async _persistLogoutData(data: LogoutData): Promise<void> {
+    const state: LogoutState = {
+      client_id: this.opts.client_id,
+      audience: data.audience,
+      scopes: data.scopes,
+      post_logout_redirect_uri: data.request.post_logout_redirect_uri,
+      state: data.request.state,
+      appState: data.appState,
+    }
+
+    this.state.set(this.logoutStateKey, state)
   }
 
   // _assertAccessToken asserts that the given token is valid.
@@ -415,9 +585,41 @@ export default class CrossidClient {
     return null
   }
 
+  // _removeTokens removes all tokens in cache that match the audience and scopes
+  private _removeTokens(audience: string[], scopes: string[]) {
+    // remove tokens
+    const idtoks = this._getTokensKeysFromCache('id_token', audience, scopes)
+
+    const actoks = this._getTokensKeysFromCache(
+      'access_token',
+      audience,
+      scopes
+    )
+
+    const rftoks = this._getTokensKeysFromCache(
+      'refresh_token',
+      audience,
+      scopes
+    )
+
+    const toks = idtoks.concat(actoks).concat(rftoks)
+    toks.forEach((k) => this.cache.remove(k))
+    this._purgeIndex()
+  }
+
   // _authorizeUrl builds a URL to perform an authorization code request.
   private _authorizeUrl(req: AuthorizationRequest) {
     return `${this.opts.authorization_endpoint}?${createQueryString(req)}`
+  }
+
+  private _logoutUrl(req?: Partial<LogoutRequest>) {
+    let url = this.opts.logout_endpoint
+
+    if (!!req) {
+      url = `${url}?${createQueryString(req)}`
+    }
+
+    return url
   }
 
   // _cacheFactory factories a cache instance by given type
