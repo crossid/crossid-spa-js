@@ -97,6 +97,7 @@
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="clientopts.html#cache_type" class="tsd-kind-icon">cache_<wbr>type</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="clientopts.html#client_id" class="tsd-kind-icon">client_<wbr>id</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="clientopts.html#issuer" class="tsd-kind-icon">issuer</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="clientopts.html#logout_endpoint" class="tsd-kind-icon">logout_<wbr>endpoint</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="clientopts.html#redirect_uri" class="tsd-kind-icon">redirect_<wbr>uri</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="clientopts.html#response_type" class="tsd-kind-icon">response_<wbr>type</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="clientopts.html#scope" class="tsd-kind-icon">scope</a></li>
@@ -115,7 +116,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from BaseClientOpts.audience</p>
 						<ul>
-							<li>Defined in <a href="https://github.com/crossid/crossid-spa-js/blob/04aaef6/src/client.ts#L49">client.ts:49</a></li>
+							<li>Defined in <a href="https://github.com/crossid/crossid-spa-js/blob/e77aa9a/src/client.ts#L57">client.ts:57</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -130,7 +131,7 @@
 					<div class="tsd-signature tsd-kind-icon">authorization_<wbr>endpoint<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/crossid/crossid-spa-js/blob/04aaef6/src/client.ts#L102">client.ts:102</a></li>
+							<li>Defined in <a href="https://github.com/crossid/crossid-spa-js/blob/e77aa9a/src/client.ts#L112">client.ts:112</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -146,7 +147,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from BaseClientOpts.cache_type</p>
 						<ul>
-							<li>Defined in <a href="https://github.com/crossid/crossid-spa-js/blob/04aaef6/src/client.ts#L77">client.ts:77</a></li>
+							<li>Defined in <a href="https://github.com/crossid/crossid-spa-js/blob/e77aa9a/src/client.ts#L87">client.ts:87</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -163,7 +164,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from BaseClientOpts.client_id</p>
 						<ul>
-							<li>Defined in <a href="https://github.com/crossid/crossid-spa-js/blob/04aaef6/src/client.ts#L71">client.ts:71</a></li>
+							<li>Defined in <a href="https://github.com/crossid/crossid-spa-js/blob/e77aa9a/src/client.ts#L81">client.ts:81</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -178,12 +179,27 @@
 					<div class="tsd-signature tsd-kind-icon">issuer<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/crossid/crossid-spa-js/blob/04aaef6/src/client.ts#L112">client.ts:112</a></li>
+							<li>Defined in <a href="https://github.com/crossid/crossid-spa-js/blob/e77aa9a/src/client.ts#L122">client.ts:122</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
 							<p>The expected issuer of the tokens.</p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="logout_endpoint" class="tsd-anchor"></a>
+					<h3>logout_<wbr>endpoint</h3>
+					<div class="tsd-signature tsd-kind-icon">logout_<wbr>endpoint<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/crossid/crossid-spa-js/blob/e77aa9a/src/client.ts#L127">client.ts:127</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>the URL used to request a logout.</p>
 						</div>
 					</div>
 				</section>
@@ -194,13 +210,14 @@
 					<aside class="tsd-sources">
 						<p>Inherited from BaseClientOpts.redirect_uri</p>
 						<ul>
-							<li>Defined in <a href="https://github.com/crossid/crossid-spa-js/blob/04aaef6/src/client.ts#L57">client.ts:57</a></li>
+							<li>Defined in <a href="https://github.com/crossid/crossid-spa-js/blob/e77aa9a/src/client.ts#L67">client.ts:67</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
 							<p>The URL is where authorization server will redirect browser upon a successful authentication.</p>
 						</div>
+						<p>Please make sure to whitelist this URL in the authorization provider.</p>
 					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
@@ -210,7 +227,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from BaseClientOpts.response_type</p>
 						<ul>
-							<li>Defined in <a href="https://github.com/crossid/crossid-spa-js/blob/04aaef6/src/client.ts#L53">client.ts:53</a></li>
+							<li>Defined in <a href="https://github.com/crossid/crossid-spa-js/blob/e77aa9a/src/client.ts#L61">client.ts:61</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -226,7 +243,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from BaseClientOpts.scope</p>
 						<ul>
-							<li>Defined in <a href="https://github.com/crossid/crossid-spa-js/blob/04aaef6/src/client.ts#L61">client.ts:61</a></li>
+							<li>Defined in <a href="https://github.com/crossid/crossid-spa-js/blob/e77aa9a/src/client.ts#L71">client.ts:71</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -241,7 +258,7 @@
 					<div class="tsd-signature tsd-kind-icon">token_<wbr>endpoint<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/crossid/crossid-spa-js/blob/04aaef6/src/client.ts#L107">client.ts:107</a></li>
+							<li>Defined in <a href="https://github.com/crossid/crossid-spa-js/blob/e77aa9a/src/client.ts#L117">client.ts:117</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">

@@ -101,11 +101,14 @@
 						<section class="tsd-index-section ">
 							<h3>Methods</h3>
 							<ul class="tsd-index-list">
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="client.html#createlogoutredirecturl" class="tsd-kind-icon">create<wbr>Logout<wbr>RedirectURL</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="client.html#createredirecturl" class="tsd-kind-icon">create<wbr>RedirectURL</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="client.html#getaccesstoken" class="tsd-kind-icon">get<wbr>Access<wbr>Token</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter"><a href="client.html#getuser" class="tsd-kind-icon">get<wbr>User</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="client.html#handlelogoutredirectcallback" class="tsd-kind-icon">handle<wbr>Logout<wbr>Redirect<wbr>Callback</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="client.html#handleredirectcallback" class="tsd-kind-icon">handle<wbr>Redirect<wbr>Callback</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="client.html#loginwithredirect" class="tsd-kind-icon">login<wbr>With<wbr>Redirect</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="client.html#logoutwithredirect" class="tsd-kind-icon">logout<wbr>With<wbr>Redirect</a></li>
 							</ul>
 						</section>
 					</div>
@@ -123,7 +126,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/crossid/crossid-spa-js/blob/04aaef6/src/client.ts#L193">client.ts:193</a></li>
+									<li>Defined in <a href="https://github.com/crossid/crossid-spa-js/blob/e77aa9a/src/client.ts#L240">client.ts:240</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -140,6 +143,43 @@
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Methods</h2>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="createlogoutredirecturl" class="tsd-anchor"></a>
+					<h3>create<wbr>Logout<wbr>RedirectURL</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">create<wbr>Logout<wbr>RedirectURL<span class="tsd-signature-symbol">(</span>opts<span class="tsd-signature-symbol">?: </span><a href="../interfaces/logoutopts.html" class="tsd-signature-type" data-tsd-kind="Interface">LogoutOpts</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/crossid/crossid-spa-js/blob/e77aa9a/src/client.ts#L379">client.ts:379</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Creates a redirect URL that can be used to start an logout flow.</p>
+								</div>
+								<p>This method is useful when you want control over the actual redirection,
+								if you want browser to be redirected, call <code>logoutWithRedirect</code> instead.</p>
+								<pre><code class="language-js"><span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">url</span><span style="color: #000000"> = </span><span style="color: #795E26">createLogoutRedirectURL</span><span style="color: #000000">()</span>
+<span style="color: #001080">window</span><span style="color: #000000">.</span><span style="color: #001080">location</span><span style="color: #000000">.</span><span style="color: #795E26">assign</span><span style="color: #000000">(</span><span style="color: #001080">url</span><span style="color: #000000">)</span>
+</code></pre>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>opts: <a href="../interfaces/logoutopts.html" class="tsd-signature-type" data-tsd-kind="Interface">LogoutOpts</a><span class="tsd-signature-symbol"> = {}</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>custom options that affects the logout flow.</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>a URL where the browser should be redirected to in order to logout.</p>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
 					<a name="createredirecturl" class="tsd-anchor"></a>
 					<h3>create<wbr>RedirectURL</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
@@ -149,7 +189,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/crossid/crossid-spa-js/blob/04aaef6/src/client.ts#L218">client.ts:218</a></li>
+									<li>Defined in <a href="https://github.com/crossid/crossid-spa-js/blob/e77aa9a/src/client.ts#L266">client.ts:266</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -186,7 +226,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/crossid/crossid-spa-js/blob/04aaef6/src/client.ts#L306">client.ts:306</a></li>
+									<li>Defined in <a href="https://github.com/crossid/crossid-spa-js/blob/e77aa9a/src/client.ts#L355">client.ts:355</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -218,7 +258,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/crossid/crossid-spa-js/blob/04aaef6/src/client.ts#L290">client.ts:290</a></li>
+									<li>Defined in <a href="https://github.com/crossid/crossid-spa-js/blob/e77aa9a/src/client.ts#L339">client.ts:339</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -247,6 +287,39 @@
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="handlelogoutredirectcallback" class="tsd-anchor"></a>
+					<h3>handle<wbr>Logout<wbr>Redirect<wbr>Callback</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">handle<wbr>Logout<wbr>Redirect<wbr>Callback<span class="tsd-signature-symbol">(</span>url<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">URL</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">LogoutCompleteResponse</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/crossid/crossid-spa-js/blob/e77aa9a/src/client.ts#L421">client.ts:421</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Call this method in order to complete logout flow.
+									this method should be called after the End-User sucessfully logs out.</p>
+								</div>
+								<p>note that this method only works if the logout was performed for a specific client.</p>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>url: <span class="tsd-signature-type">URL</span><span class="tsd-signature-symbol"> = ...</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>the URL returned from the logout endpoint, defaults to <code>window.location.href</code></p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">LogoutCompleteResponse</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
 					<a name="handleredirectcallback" class="tsd-anchor"></a>
 					<h3>handle<wbr>Redirect<wbr>Callback</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
@@ -256,7 +329,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/crossid/crossid-spa-js/blob/04aaef6/src/client.ts#L245">client.ts:245</a></li>
+									<li>Defined in <a href="https://github.com/crossid/crossid-spa-js/blob/e77aa9a/src/client.ts#L293">client.ts:293</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -288,7 +361,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/crossid/crossid-spa-js/blob/04aaef6/src/client.ts#L233">client.ts:233</a></li>
+									<li>Defined in <a href="https://github.com/crossid/crossid-spa-js/blob/e77aa9a/src/client.ts#L281">client.ts:281</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -296,6 +369,39 @@
 									<p>Starts a login by redirecting the current window.</p>
 								</div>
 								<pre><code class="language-js"><span style="color: #795E26">loginWithRedirect</span><span style="color: #000000">()</span>
+</code></pre>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>opts: <a href="../interfaces/authorizationopts.html" class="tsd-signature-type" data-tsd-kind="Interface">AuthorizationOpts</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>options</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="logoutwithredirect" class="tsd-anchor"></a>
+					<h3>logout<wbr>With<wbr>Redirect</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">logout<wbr>With<wbr>Redirect<span class="tsd-signature-symbol">(</span>opts<span class="tsd-signature-symbol">: </span><a href="../interfaces/authorizationopts.html" class="tsd-signature-type" data-tsd-kind="Interface">AuthorizationOpts</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/crossid/crossid-spa-js/blob/e77aa9a/src/client.ts#L407">client.ts:407</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Starts a logout by redirecting the current window.</p>
+								</div>
+								<pre><code class="language-js"><span style="color: #795E26">logoutWithRedirect</span><span style="color: #000000">()</span>
 </code></pre>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -332,6 +438,9 @@
 								<a href="client.html#constructor" class="tsd-kind-icon">constructor</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="client.html#createlogoutredirecturl" class="tsd-kind-icon">create<wbr>Logout<wbr>RedirectURL</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="client.html#createredirecturl" class="tsd-kind-icon">create<wbr>RedirectURL</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
@@ -341,10 +450,16 @@
 								<a href="client.html#getuser" class="tsd-kind-icon">get<wbr>User</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="client.html#handlelogoutredirectcallback" class="tsd-kind-icon">handle<wbr>Logout<wbr>Redirect<wbr>Callback</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="client.html#handleredirectcallback" class="tsd-kind-icon">handle<wbr>Redirect<wbr>Callback</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="client.html#loginwithredirect" class="tsd-kind-icon">login<wbr>With<wbr>Redirect</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="client.html#logoutwithredirect" class="tsd-kind-icon">logout<wbr>With<wbr>Redirect</a>
 							</li>
 						</ul>
 					</li>
