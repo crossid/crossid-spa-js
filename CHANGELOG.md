@@ -1,5 +1,17 @@
 # @crossid/crossid-spa-js
 
+## 0.1.0
+
+[All Changes](https://github.com/crossid/crossid-spa-js/compare/v0.0.5...v0.1.0)
+
+### Minor Changes
+
+- Embed idtoken bearer as a claim (`__bearer`) within the IDToken.
+
+### Major Changes
+
+- Logout via redirect.
+
 ## 0.0.5
 
 [All Changes](https://github.com/crossid/crossid-spa-js/compare/v0.0.4...v0.0.5)
