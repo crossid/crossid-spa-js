@@ -1,5 +1,13 @@
 # @crossid/crossid-spa-js
 
+## 0.1.1
+
+[All Changes](https://github.com/crossid/crossid-spa-js/compare/v0.1.0...v0.1.1)
+
+### Minor Changes
+
+- Add `state_type` opt.
+
 ## 0.1.0
 
 [All Changes](https://github.com/crossid/crossid-spa-js/compare/v0.0.5...v0.1.0)

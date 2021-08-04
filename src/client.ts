@@ -81,6 +81,14 @@ export interface BaseClientOpts extends Partial<BaseAuthorizationCodeParams> {
   client_id: string
 
   /**
+   * Defines where cache data is stored, possible values `local_storage` or `session_storage`.
+   * In most cases _session_storage_ is sufficient but _local_storage_ is required in cases where
+   * your auth flow spread in multiple tabs (e.g., "activation by email link is opened within another tab)
+   * Default: 'session_storage'
+   */
+  state_type?: typeof CACHE_LS | typeof CACHE_SS
+
+  /**
    * Defines where cache data is stored, possible values are: `memory`, `local_storage` or `session_storage`.
    * Default: 'memory'
    */
@@ -244,7 +252,7 @@ export default class CrossidClient {
     this.logoutStateKey = LOGOUT_STATE_KEY
     this.scope = opts.scope
 
-    this.state = new SessionStorageCache({ ttl: 5 * 60 })
+    this.state = this._stateFactory(this.opts.state_type || CACHE_SS)
     this.cache = this._cacheFactory(this.opts.cache_type || CACHE_INMEM)
     this._purgeIndex()
   }
@@ -620,6 +628,19 @@ export default class CrossidClient {
     }
 
     return url
+  }
+
+  // _stateFactory factories a state instance by given type
+  private _stateFactory(type: string): ICache {
+    const opt = { ttl: 5 * 60 }
+    switch (type) {
+      case CACHE_LS:
+        return new LocalStorageCache(opt)
+      case CACHE_SS:
+        return new SessionStorageCache(opt)
+      default:
+        throw new Error(`Invalid cache type "${type}"`)
+    }
   }
 
   // _cacheFactory factories a cache instance by given type
