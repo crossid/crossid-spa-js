@@ -376,6 +376,35 @@ export default class CrossidClient {
   }
 
   /**
+   * introspectAccessToken returns the decoded claims of the access token.
+   * handful for protecting spa routes by claims such 'scp'
+   *
+   * note: this method does not actually perform idp introspection nor checks the validity of the token.
+   *
+   * @param opts
+   * @returns
+   */
+  public async introspectAccessToken(
+    opts: GetAccessTokenOpts = {}
+  ): Promise<JWTClaims | undefined> {
+    const aud = opts.audience || this.opts.audience
+    const scp = uniqueScopes(this.scope, opts.scope)
+    const keys = this._getTokensKeysFromCache('access_token', aud, scp)
+    const tok = this._getNarrowedKey<DecodedJWT<JWTClaims>>(keys)
+
+    if (tok) {
+      return {
+        // returned by idp's introspection endpoint.
+        active: true,
+        ...tok.payload,
+        _raw: undefined,
+      }
+    }
+
+    return undefined
+  }
+
+  /**
    * Creates a redirect URL that can be used to start an logout flow.
    *
    * This method is useful when you want control over the actual redirection,
