@@ -324,12 +324,17 @@ export default class CrossidClient {
     } as TokenRequest
 
     const resp = await TokenEndpoint(tokenOptions)
-    const idToken = decode<IDToken>(resp.id_token)
-    idToken.payload[BEARER_CLAIM] = resp.id_token
+    let idToken: DecodedJWT<IDToken>
+
+    if (resp.id_token) {
+      idToken = decode<IDToken>(resp.id_token)
+      idToken.payload[BEARER_CLAIM] = resp.id_token
+      this._assertIDToken(idToken, state.nonce)
+    }
+
     const accessToken = decode<JWTClaims>(resp.access_token)
     this.state.remove(this.loginStateKey)
     this._assertAccessToken(accessToken, state.audience)
-    this._assertIDToken(idToken, state.nonce)
     accessToken.payload._raw = resp.access_token
     this._cacheTokens(idToken, accessToken, resp.refresh_token)
 
@@ -673,14 +678,16 @@ export default class CrossidClient {
       accessTokenTTL
     )
 
-    this._cacheToken(
-      'id_token',
-      idToken,
-      this.opts.client_id,
-      accessToken.payload.aud,
-      accessToken.payload.scp || [],
-      this._ttlFromToken(idToken)
-    )
+    if (idToken) {
+      this._cacheToken(
+        'id_token',
+        idToken,
+        this.opts.client_id,
+        accessToken.payload.aud,
+        accessToken.payload.scp || [],
+        this._ttlFromToken(idToken)
+      )
+    }
 
     if (refreshToken) {
       this._cacheToken(
