@@ -155,7 +155,7 @@ export interface AuthorizationOpts
    * for example, the application may provide a state that contains the return to url where user
    * should be redirected to upon completion of a successful login.
    */
-  state?: string
+  state?: any
 }
 
 /**
@@ -214,7 +214,7 @@ export interface LogoutOpts {
   /**
    * state can be used by the application to preserve some state.
    */
-  state?: string
+  state?: any
 }
 
 /**

@@ -12,13 +12,15 @@ describe('createRedirectURL', () => {
   it('should exchange code with token', async () => {
     let nonce
     const cid = setup()
-    const res = await cid.createRedirectURL({ state: 'foo' })
+    const res = await cid.createRedirectURL({ state: { returnTo: '/foo' } })
     const authCodeUrl = new URL(res)
     nonce = authCodeUrl.searchParams.get('nonce')
     const url = new URL('https://myapp')
     url.searchParams.append('code', 'mocked-code')
     global.fetch = await mockCodeToTokenFetch({ nonce })
-    expect(await cid.handleRedirectCallback(url)).toEqual({ state: 'foo' })
+    expect(await cid.handleRedirectCallback(url)).toEqual({
+      state: { returnTo: '/foo' },
+    })
     expect(() => cid.handleRedirectCallback(url)).rejects.toThrow(
       'invalid state'
     )

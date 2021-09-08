@@ -51,7 +51,7 @@ describe('createLogoutRedirectURL', () => {
     const plru = 'https://myorg.com/logout'
     const u = await cid.createLogoutRedirectURL({
       post_logout_redirect_uri: plru,
-      state: 'foobar',
+      state: { returnTo: '/foobar' },
     })
     // should not remove tokens from cache
     expect(await cid.getAccessToken()).toBeDefined()
@@ -72,7 +72,7 @@ describe('createLogoutRedirectURL', () => {
     const callbackURL = new URL(plru)
     callbackURL.searchParams.append('state', st)
     const logoutResponse = await cid.handleLogoutRedirectCallback(callbackURL)
-    expect(logoutResponse.state).toBe('foobar')
+    expect(logoutResponse.state).toEqual({ returnTo: '/foobar' })
 
     // should not remove tokens from cache
     expect(await cid.getAccessToken()).toBeUndefined()

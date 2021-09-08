@@ -103,7 +103,7 @@ export interface AuthorizationState {
   scope: string
   nonce: string
   code_verifier: string
-  state?: string
+  state?: any
   tenantId?: string
 }
 
@@ -111,7 +111,7 @@ export interface AuthorizationState {
  * Returned upon completion of a login process.
  */
 export interface LoginCompleteResponse {
-  state: string
+  state: any
 }
 
 export interface LogoutRequest {
@@ -119,7 +119,7 @@ export interface LogoutRequest {
 
   post_logout_redirect_uri?: string
 
-  state?: string
+  state?: any
 }
 
 // LogoutData returns the data required in order to process a logout request
@@ -129,7 +129,7 @@ export interface LogoutData {
   audience: string[]
   scopes: string[]
   // appState is the state given from app by LogoutOpts
-  appState: string
+  appState: any
 }
 
 // AuthorizationState is a state that is cached between authorization steps.
@@ -139,12 +139,12 @@ export interface LogoutState {
   scopes: string[]
   post_logout_redirect_uri: string
   state: string
-  appState: string
+  appState: any
 }
 
 /**
  * Returned upon completion of a logout flow.
  */
 export interface LogoutCompleteResponse {
-  state: string
+  state: any
 }
