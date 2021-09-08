@@ -8,6 +8,7 @@ import Client, {
   AuthorizationOpts,
   LogoutOpts,
 } from './client'
+import { OAuth2Error } from './errors'
 import { CROSSID_DEFAULT_AUTHORIZATION_SERVER } from './const'
 
 import { IDToken } from './types'
@@ -77,4 +78,5 @@ export {
   GetAccessTokenOpts,
   AuthorizationOpts,
   LogoutOpts,
+  OAuth2Error,
 }
