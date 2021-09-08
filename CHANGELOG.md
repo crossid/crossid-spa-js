@@ -1,5 +1,17 @@
 # @crossid/crossid-spa-js
 
+## 0.3.0
+
+[All Changes](https://github.com/crossid/crossid-spa-js/compare/v0.2.0...v0.3.0)
+
+### Minor Changes
+
+- export Oauth2Error.
+
+### Major Changes
+
+- app state can be of any type.
+
 ## 0.2.0
 
 [All Changes](https://github.com/crossid/crossid-spa-js/compare/v0.1.1...v0.2.0)
