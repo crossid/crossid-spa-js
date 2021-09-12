@@ -352,7 +352,7 @@ export default class CrossidClient {
   public async getUser<E extends IDToken>(
     opts: GetUserOpts = {}
   ): Promise<E | undefined> {
-    const aud = opts.audience || this.opts.audience
+    const aud = opts.audience || this.opts.audience || ['']
     const scp = uniqueScopes(this.scope, opts.scope)
     const keys = this._getTokensKeysFromCache('id_token', aud, scp)
     const tok = this._getNarrowedKey<DecodedJWT<E>>(keys)
@@ -368,7 +368,7 @@ export default class CrossidClient {
   public async getAccessToken(
     opts: GetAccessTokenOpts = {}
   ): Promise<string | undefined> {
-    const aud = opts.audience || this.opts.audience
+    const aud = opts.audience || this.opts.audience || ['']
     const scp = uniqueScopes(this.scope, opts.scope)
     const keys = this._getTokensKeysFromCache('access_token', aud, scp)
     const tok = this._getNarrowedKey<DecodedJWT<JWTClaims>>(keys)
@@ -750,7 +750,7 @@ export default class CrossidClient {
     this.cache.set(key, tok, { ttl })
 
     // this method currently handles single aud only
-    const aud = [audience[0]]
+    const aud = [audience[0] || '']
     let idx = this.cache.get(CACHE_IDX_KEY)
     if (!idx) idx = {}
 
