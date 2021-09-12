@@ -47,10 +47,6 @@ export const JWTAlgAssertion = (exp: 'RS256' | 'HS256'): JWTAssertion => {
 // according to OIDC spec the audience may be a string or an array of strings
 export const JWTAudAssertion = (exp: string[] = []): JWTAssertion => {
   return <C extends JWTClaims>(jwt: DecodedJWT<C>) => {
-    if (!jwt.payload.aud || !jwt.payload.aud.length) {
-      return 'Audience (aud) claim must be a present string'
-    }
-
     if (!mustContain(exp, jwt.payload.aud)) {
       return `Audience (aud) claim mismatch: audience (${jwt.payload.aud}) must contain only (${exp})`
     }
