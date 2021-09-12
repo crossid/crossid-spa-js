@@ -754,6 +754,8 @@ export default class CrossidClient {
     let idx = this.cache.get(CACHE_IDX_KEY)
     if (!idx) idx = {}
 
+    scope = scope.length ? scope : ['']
+
     aud.forEach((u) => {
       if (!idx[u]) idx[u] = {}
       let audIdx = idx[u]

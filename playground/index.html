@@ -681,7 +681,7 @@
             authEndpoint: data.authEndpoint,
             tokenEndpoint: data.tokenEndpoint,
             clientID: data.clientID,
-            scope: data.scope || 'openid email profile',
+            scope: data.scope,
             audienceInput: data.audience ? data.audience.join(' ') : '',
             selectedTab: data.selectedTab || 0,
             codeInURL: new URLSearchParams(window.location.search).has('code'),
