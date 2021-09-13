@@ -1,5 +1,14 @@
 # @crossid/crossid-spa-js
 
+## 0.3.1
+
+[All Changes](https://github.com/crossid/crossid-spa-js/compare/v0.3.0...v0.3.1)
+
+### Minor Changes
+
+- Allow no audience.
+- Allow no scopes.
+
 ## 0.3.0
 
 [All Changes](https://github.com/crossid/crossid-spa-js/compare/v0.2.0...v0.3.0)
