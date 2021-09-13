@@ -352,8 +352,8 @@ export default class CrossidClient {
   public async getUser<E extends IDToken>(
     opts: GetUserOpts = {}
   ): Promise<E | undefined> {
-    const aud = opts.audience || this.opts.audience || ['']
-    const scp = uniqueScopes(this.scope, opts.scope)
+    const aud = this.getFinalAudience(opts.audience)
+    const scp = this.getFinalScope(opts.scope)
     const keys = this._getTokensKeysFromCache('id_token', aud, scp)
     const tok = this._getNarrowedKey<DecodedJWT<E>>(keys)
     return tok?.payload
@@ -368,8 +368,8 @@ export default class CrossidClient {
   public async getAccessToken(
     opts: GetAccessTokenOpts = {}
   ): Promise<string | undefined> {
-    const aud = opts.audience || this.opts.audience || ['']
-    const scp = uniqueScopes(this.scope, opts.scope)
+    const aud = this.getFinalAudience(opts.audience)
+    const scp = this.getFinalScope(opts.scope)
     const keys = this._getTokensKeysFromCache('access_token', aud, scp)
     const tok = this._getNarrowedKey<DecodedJWT<JWTClaims>>(keys)
     return tok?.payload?._raw
@@ -387,8 +387,8 @@ export default class CrossidClient {
   public async introspectAccessToken(
     opts: GetAccessTokenOpts = {}
   ): Promise<JWTClaims | undefined> {
-    const aud = opts.audience || this.opts.audience
-    const scp = uniqueScopes(this.scope, opts.scope)
+    const aud = this.getFinalAudience(opts.audience)
+    const scp = this.getFinalScope(opts.scope)
     const keys = this._getTokensKeysFromCache('access_token', aud, scp)
     const tok = this._getNarrowedKey<DecodedJWT<JWTClaims>>(keys)
 
@@ -540,12 +540,12 @@ export default class CrossidClient {
   ): AuthorizationRequest {
     return {
       client_id: this.opts.client_id,
-      audience: opts.audience || this.opts.audience,
+      audience: this.getFinalAudience(opts.audience),
       response_type: opts.response_type || this.opts.response_type || 'code',
       redirect_uri: opts.redirect_uri || this.opts.redirect_uri,
       nonce: opts.nonce,
       state: opts.state,
-      scope: opts.scope || this.opts.scope,
+      scope: this.getFinalScope(opts.scope).join(' '),
       code_challenge: opts.code_challenge,
       code_challenge_method: 'S256',
     }
@@ -824,13 +824,13 @@ export default class CrossidClient {
   // _getTokensKeysFromCache returns key names that matches the given criteria.
   private _getTokensKeysFromCache(
     tokType: tokenTypes,
-    aud: string[],
+    aud: string[] = [''],
     scp: string[]
   ): string[] {
     let idx = this.cache.get(CACHE_IDX_KEY) || {}
     // this method currently handles single aud only
     const aud1 = aud[0]
-    const audIdx = idx[aud1]
+    const audIdx = idx[aud1] || ['']
     if (!audIdx) return []
 
     let inter
@@ -895,5 +895,15 @@ export default class CrossidClient {
       }
     }
     this.cache.set(CACHE_IDX_KEY, idx)
+  }
+
+  private getFinalAudience(localAud: string[]): string[] {
+    return localAud || this.opts.audience
+  }
+
+  private getFinalScope(localScp: string): string[] {
+    return localScp !== undefined
+      ? uniqueScopes(localScp)
+      : uniqueScopes(this.scope)
   }
 }

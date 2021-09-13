@@ -844,15 +844,17 @@
             }
           },
           getUser: async function () {
-            const user = await this.crossid.getUser()
+            const user = await this.crossid.getUser({ scope: 'openid' })
             this.user = user
           },
           getAccessToken: async function () {
-            const at = await this.crossid.getAccessToken()
+            const at = await this.crossid.getAccessToken({ scope: 'openid' })
             this.accessToken = at
           },
           introspectAccessToken: async function () {
-            const at = await this.crossid.introspectAccessToken()
+            const at = await this.crossid.introspectAccessToken({
+              scope: 'openid',
+            })
             this.accessTokenClaims = at
           },
           logout: async function () {
