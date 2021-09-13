@@ -1,7 +1,7 @@
 {
   "name": "@crossid/crossid-spa-js",
   "version": "0.3.0",
-  "description": "",
+  "description": "Crossid is an OAuth2 / OIDC client for single page application (SPA) with support for PKCE extension.",
   "main": "dist/crossid-spa-js.js",
   "types": "dist/index.d.ts",
   "module": "dist/index.js",
