@@ -711,7 +711,7 @@
         },
         computed: {
           audience: function () {
-            return [this.audienceInput]
+            return this.audienceInput ? [this.audienceInput] : undefined
           },
         },
         created: async function () {
