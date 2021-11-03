@@ -345,6 +345,30 @@
                 Login by redirect
               </button>
               <button
+                @click="registerWithRedirect"
+                class="
+                  ml-3
+                  inline-flex
+                  justify-center
+                  py-2
+                  px-4
+                  border border-transparent
+                  shadow-sm
+                  text-sm
+                  font-medium
+                  rounded-md
+                  text-white
+                  bg-indigo-600
+                  hover:bg-indigo-700
+                  focus:outline-none
+                  focus:ring-2
+                  focus:ring-offset-2
+                  focus:ring-indigo-500
+                "
+              >
+                Register by redirect
+              </button>
+              <button
                 @click="handleRedirectCallback"
                 class="
                   ml-3
@@ -816,6 +840,10 @@
           loginWithRedirect: async function () {
             await this.initClient()
             this.crossid.loginWithRedirect({})
+          },
+          registerWithRedirect: async function () {
+            await this.initClient()
+            this.crossid.registerWithRedirect({})
           },
           handleRedirectCallback: async function () {
             try {
