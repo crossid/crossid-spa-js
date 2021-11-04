@@ -103,6 +103,7 @@
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="client.html#createlogoutredirecturl" class="tsd-kind-icon">create<wbr>Logout<wbr>RedirectURL</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="client.html#createredirecturl" class="tsd-kind-icon">create<wbr>RedirectURL</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="client.html#createregistrationurl" class="tsd-kind-icon">create<wbr>Registration<wbr>Url</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="client.html#getaccesstoken" class="tsd-kind-icon">get<wbr>Access<wbr>Token</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter"><a href="client.html#getuser" class="tsd-kind-icon">get<wbr>User</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="client.html#handlelogoutredirectcallback" class="tsd-kind-icon">handle<wbr>Logout<wbr>Redirect<wbr>Callback</a></li>
@@ -110,6 +111,7 @@
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="client.html#introspectaccesstoken" class="tsd-kind-icon">introspect<wbr>Access<wbr>Token</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="client.html#loginwithredirect" class="tsd-kind-icon">login<wbr>With<wbr>Redirect</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="client.html#logoutwithredirect" class="tsd-kind-icon">logout<wbr>With<wbr>Redirect</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="client.html#registerwithredirect" class="tsd-kind-icon">register<wbr>With<wbr>Redirect</a></li>
 							</ul>
 						</section>
 					</div>
@@ -127,7 +129,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/crossid/crossid-spa-js/blob/f052558/src/client.ts#L248">src/client.ts:248</a></li>
+									<li>Defined in <a href="https://github.com/crossid/crossid-spa-js/blob/263e7b6/src/client.ts#L253">src/client.ts:253</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -153,7 +155,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/crossid/crossid-spa-js/blob/f052558/src/client.ts#L421">src/client.ts:421</a></li>
+									<li>Defined in <a href="https://github.com/crossid/crossid-spa-js/blob/263e7b6/src/client.ts#L453">src/client.ts:453</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -190,7 +192,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/crossid/crossid-spa-js/blob/f052558/src/client.ts#L274">src/client.ts:274</a></li>
+									<li>Defined in <a href="https://github.com/crossid/crossid-spa-js/blob/263e7b6/src/client.ts#L280">src/client.ts:280</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -218,6 +220,34 @@
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="createregistrationurl" class="tsd-anchor"></a>
+					<h3>create<wbr>Registration<wbr>Url</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">create<wbr>Registration<wbr>Url<span class="tsd-signature-symbol">(</span>opts<span class="tsd-signature-symbol">: </span><a href="../interfaces/authorizationopts.html" class="tsd-signature-type" data-tsd-kind="Interface">AuthorizationOpts</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/crossid/crossid-spa-js/blob/263e7b6/src/client.ts#L310">src/client.ts:310</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>opts: <a href="../interfaces/authorizationopts.html" class="tsd-signature-type" data-tsd-kind="Interface">AuthorizationOpts</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Start a registration by redirecting the current window.</p>
+										<pre><code class="language-js"><span style="color: #795E26">createRegistrationUrl</span><span style="color: #000000">()</span>
+</code></pre>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
 					<a name="getaccesstoken" class="tsd-anchor"></a>
 					<h3>get<wbr>Access<wbr>Token</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
@@ -227,7 +257,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/crossid/crossid-spa-js/blob/f052558/src/client.ts#L368">src/client.ts:368</a></li>
+									<li>Defined in <a href="https://github.com/crossid/crossid-spa-js/blob/263e7b6/src/client.ts#L400">src/client.ts:400</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -259,7 +289,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/crossid/crossid-spa-js/blob/f052558/src/client.ts#L352">src/client.ts:352</a></li>
+									<li>Defined in <a href="https://github.com/crossid/crossid-spa-js/blob/263e7b6/src/client.ts#L384">src/client.ts:384</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -297,7 +327,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/crossid/crossid-spa-js/blob/f052558/src/client.ts#L463">src/client.ts:463</a></li>
+									<li>Defined in <a href="https://github.com/crossid/crossid-spa-js/blob/263e7b6/src/client.ts#L495">src/client.ts:495</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -330,7 +360,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/crossid/crossid-spa-js/blob/f052558/src/client.ts#L301">src/client.ts:301</a></li>
+									<li>Defined in <a href="https://github.com/crossid/crossid-spa-js/blob/263e7b6/src/client.ts#L333">src/client.ts:333</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -362,7 +392,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/crossid/crossid-spa-js/blob/f052558/src/client.ts#L387">src/client.ts:387</a></li>
+									<li>Defined in <a href="https://github.com/crossid/crossid-spa-js/blob/263e7b6/src/client.ts#L419">src/client.ts:419</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -392,7 +422,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/crossid/crossid-spa-js/blob/f052558/src/client.ts#L289">src/client.ts:289</a></li>
+									<li>Defined in <a href="https://github.com/crossid/crossid-spa-js/blob/263e7b6/src/client.ts#L295">src/client.ts:295</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -425,7 +455,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/crossid/crossid-spa-js/blob/f052558/src/client.ts#L449">src/client.ts:449</a></li>
+									<li>Defined in <a href="https://github.com/crossid/crossid-spa-js/blob/263e7b6/src/client.ts#L481">src/client.ts:481</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -442,6 +472,29 @@
 									<div class="tsd-comment tsd-typography">
 										<p>options</p>
 									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="registerwithredirect" class="tsd-anchor"></a>
+					<h3>register<wbr>With<wbr>Redirect</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">register<wbr>With<wbr>Redirect<span class="tsd-signature-symbol">(</span>opts<span class="tsd-signature-symbol">: </span><a href="../interfaces/authorizationopts.html" class="tsd-signature-type" data-tsd-kind="Interface">AuthorizationOpts</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/crossid/crossid-spa-js/blob/263e7b6/src/client.ts#L321">src/client.ts:321</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>opts: <a href="../interfaces/authorizationopts.html" class="tsd-signature-type" data-tsd-kind="Interface">AuthorizationOpts</a></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
@@ -475,6 +528,9 @@
 								<a href="client.html#createredirecturl" class="tsd-kind-icon">create<wbr>RedirectURL</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="client.html#createregistrationurl" class="tsd-kind-icon">create<wbr>Registration<wbr>Url</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="client.html#getaccesstoken" class="tsd-kind-icon">get<wbr>Access<wbr>Token</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter">
@@ -494,6 +550,9 @@
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="client.html#logoutwithredirect" class="tsd-kind-icon">logout<wbr>With<wbr>Redirect</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="client.html#registerwithredirect" class="tsd-kind-icon">register<wbr>With<wbr>Redirect</a>
 							</li>
 						</ul>
 					</li>
