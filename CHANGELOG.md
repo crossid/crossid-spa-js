@@ -1,5 +1,13 @@
 # @crossid/crossid-spa-js
 
+## 0.4.0
+
+[All Changes](https://github.com/crossid/crossid-spa-js/compare/v0.3.2...v0.4.0)
+
+### Major Changes
+
+- Registration and login user flow.
+
 ## 0.3.2
 
 [All Changes](https://github.com/crossid/crossid-spa-js/compare/v0.3.1...v0.3.2)
