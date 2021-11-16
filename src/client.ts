@@ -93,6 +93,16 @@ export interface BaseClientOpts extends Partial<BaseAuthorizationCodeParams> {
    * Default: 'memory'
    */
   cache_type?: typeof CACHE_INMEM | typeof CACHE_LS | typeof CACHE_SS
+
+  /**
+   * Defines the default locales to request for the login/consent ui
+   */
+  ui_locales?: string
+
+  /**
+   * The template ID to display in the login/consent flow
+   */
+  template_id?: string
 }
 
 /**
@@ -580,6 +590,8 @@ export default class CrossidClient {
       scope: this.getFinalScope(opts.scope).join(' '),
       code_challenge: opts.code_challenge,
       code_challenge_method: 'S256',
+      ui_locales: opts.ui_locales || this.opts.ui_locales,
+      template_id: opts.template_id || this.opts.template_id,
     }
   }
 

@@ -168,6 +168,18 @@
                 placeholder="Your crossid tenant (e.g., 'myorg')"
                 autoFocus
               ></optinput>
+              <optinput
+                name="uiLocales"
+                v-model="uiLocales"
+                label="UI Locales"
+                autoFocus
+              ></optinput>
+              <optinput
+                name="templateId"
+                v-model="templateId"
+                label="Template ID"
+                autoFocus
+              ></optinput>
             </tab>
             <tab id="wellKnown" name="OpenID Well Known Endpoint">
               <p class="text-xs text-gray-500">
@@ -765,6 +777,8 @@
                 }
                 return {
                   tenant_id: this.tenant,
+                  ui_locales: this.uiLocales,
+                  template_id: this.templateId,
                   ...opts,
                 }
               }

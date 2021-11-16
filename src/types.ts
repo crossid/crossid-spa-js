@@ -84,6 +84,8 @@ export interface AuthorizationRequest {
   scope: string
   code_challenge: string
   code_challenge_method: string
+  ui_locales?: string
+  template_id?: string
 }
 
 // AuthorizationCodeData returns the data required in order to process an authorization code request
