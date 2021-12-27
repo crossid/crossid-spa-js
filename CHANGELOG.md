@@ -1,5 +1,13 @@
 # @crossid/crossid-spa-js
 
+## 0.4.1
+
+[All Changes](https://github.com/crossid/crossid-spa-js/compare/v0.4.0...v0.4.1)
+
+### Minor Changes
+
+Bug fix in audience array to query param convertion.
+
 ## 0.4.0
 
 [All Changes](https://github.com/crossid/crossid-spa-js/compare/v0.3.2...v0.4.0)
