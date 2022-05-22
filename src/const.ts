@@ -16,3 +16,7 @@ export const CACHE_KEY_PREFIX = 'crossid-spa-js'
 export const LOGIN_STATE_KEY = `${CACHE_KEY_PREFIX}${KEY_SEP}login`
 export const LOGOUT_STATE_KEY = `${CACHE_KEY_PREFIX}${KEY_SEP}logout`
 export const CACHE_IDX_KEY = `${CACHE_KEY_PREFIX}${KEY_SEP}index`
+
+// regions
+export const REGION_US = 'us'
+export const REGION_EU = 'eu'

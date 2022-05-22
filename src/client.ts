@@ -7,6 +7,8 @@ import {
   KEY_SEP,
   LOGIN_STATE_KEY,
   LOGOUT_STATE_KEY,
+  REGION_EU,
+  REGION_US,
   SPLIT_SEP,
 } from './const'
 import {
@@ -113,6 +115,11 @@ export interface ClientCrossidOpts extends BaseClientOpts {
    * your org crossid tenant name registered at [crossid.io](https://crossid.io)
    */
   tenant_id: string
+
+  /**
+   * your crossid tenant region
+   */
+  region: typeof REGION_US | typeof REGION_EU
 
   /**
    * custom authorization server, defaults to `default`
