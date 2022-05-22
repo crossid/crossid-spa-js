@@ -1,5 +1,13 @@
 # @crossid/crossid-spa-js
 
+## 0.4.2
+
+[All Changes](https://github.com/crossid/crossid-spa-js/compare/v0.4.1...v0.4.2)
+
+### Major Changes
+
+Add support for crossid region tenant configuration.
+
 ## 0.4.1
 
 [All Changes](https://github.com/crossid/crossid-spa-js/compare/v0.4.0...v0.4.1)
