@@ -149,6 +149,13 @@
                 autoFocus
               ></optinput>
               <optinput
+                name="region"
+                v-model="region"
+                label="Region"
+                placeholder="Your crossid tenant region (e.g., 'us')"
+                autoFocus
+              ></optinput>
+              <optinput
                 name="uiLocales"
                 v-model="uiLocales"
                 label="UI Locales"
@@ -692,6 +699,7 @@
             error: null,
             // opts
             tenant: data.tenant,
+            region: data.region,
             wellKnownEndpoint: data.wellKnownEndpoint,
             issuer: data.issuer,
             authEndpoint: data.authEndpoint,
@@ -745,7 +753,7 @@
           clientOptions: function () {
             const opts = {
               client_id: this.clientID,
-              audience: ['foo.com', 'bar.com'],
+              audience: this.audience,
               scope: this.scope,
               cache_type: this.cacheType,
               redirect_uri: window.location.href,
@@ -757,6 +765,7 @@
                 }
                 return {
                   tenant_id: this.tenant,
+                  region: this.region,
                   ui_locales: this.uiLocales,
                   template_id: this.templateId,
                   ...opts,
@@ -817,6 +826,7 @@
               'crossid-spa-js-playground',
               JSON.stringify({
                 tenant: this.tenant,
+                region: this.region,
                 issuer: this.issuer,
                 authEndpoint: this.authEndpoint,
                 tokenEndpoint: this.tokenEndpoint,
