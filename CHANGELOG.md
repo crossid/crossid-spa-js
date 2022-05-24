@@ -1,5 +1,13 @@
 # @crossid/crossid-spa-js
 
+## 0.4.3
+
+[All Changes](https://github.com/crossid/crossid-spa-js/compare/v0.4.2...v0.4.3)
+
+### Major Changes
+
+Rename register -> signup.
+
 ## 0.4.2
 
 [All Changes](https://github.com/crossid/crossid-spa-js/compare/v0.4.1...v0.4.2)
