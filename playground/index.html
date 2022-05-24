@@ -344,7 +344,7 @@
                 Login by redirect
               </button>
               <button
-                @click="registerWithRedirect"
+                @click="signupWithRedirect"
                 class="
                   ml-3
                   inline-flex
@@ -365,7 +365,7 @@
                   focus:ring-indigo-500
                 "
               >
-                Register by redirect
+                Signup by redirect
               </button>
               <button
                 @click="handleRedirectCallback"
@@ -845,9 +845,9 @@
             await this.initClient()
             this.crossid.loginWithRedirect({})
           },
-          registerWithRedirect: async function () {
+          signupWithRedirect: async function () {
             await this.initClient()
-            this.crossid.registerWithRedirect({})
+            this.crossid.signupWithRedirect({})
           },
           handleRedirectCallback: async function () {
             try {

@@ -35,7 +35,7 @@ export async function newCrossidClient(opts: ClientCrossidOpts) {
   copts.token_endpoint = wn.token_endpoint
   copts.issuer = wn.issuer
   copts.logout_endpoint = copts.issuer + 'logout'
-  copts.registration_endpoint = `https://${tenant_id}.${region}.crossid.io/auth/register`
+  copts.signup_endpoint = `https://${tenant_id}.${region}.crossid.io/auth/signup`
   const client = new Client(copts)
   return client
 }

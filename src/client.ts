@@ -152,9 +152,9 @@ export interface ClientOpts extends BaseClientOpts {
   logout_endpoint: string
 
   /**
-   * the URL used to register a new user
+   * the URL used to signup a new user
    */
-  registration_endpoint?: string
+  signup_endpoint?: string
 }
 
 /**
@@ -316,27 +316,27 @@ export default class CrossidClient {
 
   /**
    *
-   * @param opts Start a registration by redirecting the current window.
+   * @param opts Start a signup by redirecting the current window.
    *
    * ```js
-   * createRegistrationUrl()
+   * createSignupUrl()
    * ```
    *
    * @returns
    */
-  public async createRegistrationUrl(opts: AuthorizationOpts) {
-    if (!this.opts.registration_endpoint) {
-      throw new Error('registration_endpoint not defiend')
+  public async createSignupUrl(opts: AuthorizationOpts) {
+    if (!this.opts.signup_endpoint) {
+      throw new Error('signup_endpoint not defiend')
     }
     const authUrl = await this.createRedirectURL(opts)
-    const url = `${this.opts.registration_endpoint}?${createQueryString({
+    const url = `${this.opts.signup_endpoint}?${createQueryString({
       return_to: authUrl,
     })}`
     return url
   }
 
-  public async registerWithRedirect(opts: AuthorizationOpts) {
-    const url = await this.createRegistrationUrl(opts)
+  public async signupWithRedirect(opts: AuthorizationOpts) {
+    const url = await this.createSignupUrl(opts)
     window.location.replace(url)
   }
 
