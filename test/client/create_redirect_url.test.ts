@@ -18,10 +18,10 @@ describe('handleRedirectCallback', () => {
     const urls = await cid.createRedirectURL()
     const url = new URL(urls)
     expect(url.href).toMatch(new RegExp(`^${TEST_AUTHORIZATION_ENDPOINT}Z\?`))
-    expect(url.searchParams.get('nonce').length).toBeGreaterThanOrEqual(48)
-    expect(url.searchParams.get('state').length).toBeGreaterThanOrEqual(48)
+    expect(url.searchParams.get('nonce')!.length).toBeGreaterThanOrEqual(48)
+    expect(url.searchParams.get('state')!.length).toBeGreaterThanOrEqual(48)
     expect(
-      url.searchParams.get('code_challenge').length
+      url.searchParams.get('code_challenge')!.length
     ).toBeGreaterThanOrEqual(40)
     assertURLSearchParams(url, {
       client_id: TEST_CLIENT_ID,

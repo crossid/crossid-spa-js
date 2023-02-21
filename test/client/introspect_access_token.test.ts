@@ -24,7 +24,7 @@ describe('introspectAccessToken', () => {
     await cid.handleRedirectCallback(url)
     const claims = await cid.introspectAccessToken()
     expect(claims).toBeDefined()
-    expect(claims.aud).toEqual(['myorg.com'])
+    expect(claims!.aud).toEqual(['myorg.com'])
     await new Promise((res) => setTimeout(res, 1100))
     expect(await cid.introspectAccessToken()).toBeUndefined()
   })

@@ -24,8 +24,9 @@ describe('getUser', () => {
     global.fetch = await mockCodeToTokenFetch({ nonce, expiresIn: 1 })
     await cid.handleRedirectCallback(url)
     const u = await cid.getUser()
+    expect(u).toBeDefined()
     expect(u).toHaveProperty('family_name', 'jared@example.com')
-    expect(u[BEARER_CLAIM]).toBeDefined()
+    expect(u![BEARER_CLAIM]).toBeDefined()
 
     await new Promise((res) => setTimeout(res, 1100))
     // expired
