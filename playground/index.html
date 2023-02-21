@@ -142,17 +142,10 @@
                 Auto configure client by your crossid tenant.
               </p>
               <optinput
-                name="tenant"
-                v-model="tenant"
-                label="Your Tenant"
-                placeholder="Your crossid tenant (e.g., 'myorg')"
-                autoFocus
-              ></optinput>
-              <optinput
-                name="region"
-                v-model="region"
-                label="Region"
-                placeholder="Your crossid tenant region (e.g., 'us')"
+                name="domain"
+                v-model="domain"
+                label="Your Domain"
+                placeholder="Your crossid domain name (e.g., 'myorg.us.crossid.io')"
                 autoFocus
               ></optinput>
               <optinput
@@ -698,8 +691,7 @@
             accessTokenClaims: null,
             error: null,
             // opts
-            tenant: data.tenant,
-            region: data.region,
+            domain: data.domain,
             wellKnownEndpoint: data.wellKnownEndpoint,
             issuer: data.issuer,
             authEndpoint: data.authEndpoint,
@@ -760,12 +752,11 @@
             }
             switch (this.selectedTab) {
               case 0: {
-                if (!this.tenant) {
-                  throw new Error('Tenant is not set')
+                if (!this.domain) {
+                  throw new Error('Domain is not set')
                 }
                 return {
-                  tenant_id: this.tenant,
-                  region: this.region,
+                  domain: this.domain,
                   ui_locales: this.uiLocales,
                   template_id: this.templateId,
                   ...opts,
@@ -825,8 +816,7 @@
             localStorage.setItem(
               'crossid-spa-js-playground',
               JSON.stringify({
-                tenant: this.tenant,
-                region: this.region,
+                domain: this.domain,
                 issuer: this.issuer,
                 authEndpoint: this.authEndpoint,
                 tokenEndpoint: this.tokenEndpoint,
