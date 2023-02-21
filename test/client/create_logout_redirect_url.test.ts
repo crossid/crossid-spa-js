@@ -4,7 +4,7 @@
 import { TEST_LOGOUT_ENDPOINT } from './const'
 import { TextEncoder } from 'util'
 import { Crypto } from '@peculiar/webcrypto'
-import { assertURLSearchParams, mockCodeToTokenFetch, setup } from './helper'
+import { mockCodeToTokenFetch, setup } from './helper'
 import CrossidClient from '../../src/client'
 import { SessionStorageCache } from '../../src/cache'
 import { LogoutState } from '../../src/types'
@@ -21,7 +21,7 @@ describe('createLogoutRedirectURL', () => {
     const loginURL = new URL('https://myapp')
     loginURL.searchParams.append('code', 'mocked-code')
     global.fetch = await mockCodeToTokenFetch({
-      nonce: authCodeUrl.searchParams.get('nonce'),
+      nonce: authCodeUrl.searchParams.get('nonce') || '',
     })
     await cid.handleRedirectCallback(loginURL)
 
@@ -34,7 +34,7 @@ describe('createLogoutRedirectURL', () => {
   it('should create a global logout URL and wipe all tokens from cache when id_token_hint=null', async () => {
     // logout
     //
-    const u = await cid.createLogoutRedirectURL({ id_token_hint: null })
+    const u = await cid.createLogoutRedirectURL({ id_token_hint: undefined })
     const logoutURL = new URL(u)
 
     // logout assertions
@@ -66,7 +66,7 @@ describe('createLogoutRedirectURL', () => {
     const c = new SessionStorageCache()
     const lss = c.get<LogoutState>(LOGOUT_STATE_KEY)
     expect(lss).toBeDefined()
-    const st = lss.state
+    const st = lss!.state
     expect(st).toBeDefined()
 
     const callbackURL = new URL(plru)

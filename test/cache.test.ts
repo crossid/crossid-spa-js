@@ -34,7 +34,7 @@ export const commonServiceTests = (name: string, c: ICache, ce: ICache) => {
       const foo = { foo: 'bar' }
       expect(c.set('foo', foo, { ttl: 0.5 })).toBe(true)
       expect(c.get('foo')).toMatchObject(foo)
-      await new Promise((res) => setTimeout(res, 500))
+      await new Promise((res) => setTimeout(res, 510))
       expect(c.get('foo')).toBe(undefined)
     })
 

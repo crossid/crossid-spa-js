@@ -1,6 +1,6 @@
 import { JWTClaims, JWTHeader } from '../src/types'
 import * as jwt from 'jsonwebtoken'
-import * as pem from 'pem'
+import { generateKeyPairSync } from 'crypto'
 
 interface Cert {
   cert: string
@@ -8,25 +8,16 @@ interface Cert {
   serviceKey: string
 }
 
-const createCert = (): Promise<Cert> =>
-  new Promise((res, rej) => {
-    pem.createCertificate({ days: 1, selfSigned: true }, function (err, keys) {
-      if (err) {
-        return rej(err)
-      }
-
-      pem.getPublicKey(keys.certificate, function (err, p) {
-        if (err) {
-          return rej(err)
-        }
-        res({
-          serviceKey: keys.serviceKey,
-          cert: keys.certificate,
-          publicKey: p.publicKey,
-        })
-      })
-    })
+const createPrivateKey = () => {
+  const { privateKey } = generateKeyPairSync('rsa', {
+    modulusLength: 1024,
   })
+  const pkey = privateKey.export({
+    format: 'pem',
+    type: 'pkcs8',
+  })
+  return pkey
+}
 
 export const createJWT = async <C extends JWTClaims>({
   header,
@@ -37,12 +28,12 @@ export const createJWT = async <C extends JWTClaims>({
   payload: C
   expiresIn?: number
 }) => {
-  const cert = await createCert()
+  const key = createPrivateKey()
   let opts: any = {
     algorithm: header.alg,
   }
   if (expiresIn) {
     opts.expiresIn = expiresIn
   }
-  return jwt.sign(payload, cert.serviceKey, opts)
+  return jwt.sign(payload, key, opts)
 }

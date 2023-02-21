@@ -9,7 +9,7 @@ interface CacheOpts {
   // prefix prefixes all cache keys
   prefix?: string
   // ttl (time to live) in seconds.
-  ttl?: number
+  ttl?: number | null
   // purgeOnInit purges expired entries when cache initialized.
   purgeOnInit?: boolean
 }
