@@ -22,20 +22,19 @@ import { IDToken } from './types'
  */
 export async function newCrossidClient(opts: ClientCrossidOpts) {
   let {
-    tenant_id,
-    region,
+    domain,
     auth_server = CROSSID_DEFAULT_AUTHORIZATION_SERVER,
     ...other
   } = opts
   const copts = other as ClientOpts
   const wn = await WellKnown({
-    wellknown_endpoint: `https://${tenant_id}.${region}.crossid.io/oauth2/${auth_server}/.well-known/openid-configuration`,
+    wellknown_endpoint: `https://${domain}/oauth2/${auth_server}/.well-known/openid-configuration`,
   })
   copts.authorization_endpoint = wn.authorization_endpoint
   copts.token_endpoint = wn.token_endpoint
   copts.issuer = wn.issuer
   copts.logout_endpoint = copts.issuer + 'logout'
-  copts.signup_endpoint = `https://${tenant_id}.${region}.crossid.io/auth/signup`
+  copts.signup_endpoint = `https://${domain}/auth/signup`
   const client = new Client(copts)
   return client
 }
