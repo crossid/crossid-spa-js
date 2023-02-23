@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>GetAccessTokenOpts | @crossid/crossid-spa-js</title>
+	<title>LogoutOpts | @crossid/crossid-spa-js</title>
 	<meta name="description" content="Documentation for @crossid/crossid-spa-js">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -55,10 +55,10 @@
 					<a href="../modules.html">@crossid/crossid-spa-js</a>
 				</li>
 				<li>
-					<a href="getaccesstokenopts.html">GetAccessTokenOpts</a>
+					<a href="LogoutOpts.html">LogoutOpts</a>
 				</li>
 			</ul>
-			<h1>Interface GetAccessTokenOpts</h1>
+			<h1>Interface LogoutOpts</h1>
 		</div>
 	</div>
 </header>
@@ -68,7 +68,7 @@
 			<section class="tsd-panel tsd-comment">
 				<div class="tsd-comment tsd-typography">
 					<div class="lead">
-						<p>Options for the <code>GetAccessToken</code> method.</p>
+						<p>Options for logging user out.</p>
 					</div>
 				</div>
 			</section>
@@ -76,7 +76,7 @@
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<span class="target">GetAccessTokenOpts</span>
+						<span class="target">LogoutOpts</span>
 					</li>
 				</ul>
 			</section>
@@ -87,8 +87,11 @@
 						<section class="tsd-index-section ">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="getaccesstokenopts.html#audience" class="tsd-kind-icon">audience</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="getaccesstokenopts.html#scope" class="tsd-kind-icon">scope</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="LogoutOpts.html#audience" class="tsd-kind-icon">audience</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="LogoutOpts.html#id_token_hint" class="tsd-kind-icon">id_<wbr>token_<wbr>hint</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="LogoutOpts.html#post_logout_redirect_uri" class="tsd-kind-icon">post_<wbr>logout_<wbr>redirect_<wbr>uri</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="LogoutOpts.html#scope" class="tsd-kind-icon">scope</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="LogoutOpts.html#state" class="tsd-kind-icon">state</a></li>
 							</ul>
 						</section>
 					</div>
@@ -102,7 +105,7 @@
 					<div class="tsd-signature tsd-kind-icon">audience<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/crossid/crossid-spa-js/blob/73cc753/src/client.ts#L210">src/client.ts:210</a></li>
+							<li>Defined in <a href="https://github.com/crossid/crossid-spa-js/blob/376a082/src/client.ts#L227">src/client.ts:227</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -112,17 +115,58 @@
 					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="id_token_hint" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> id_<wbr>token_<wbr>hint</h3>
+					<div class="tsd-signature tsd-kind-icon">id_<wbr>token_<wbr>hint<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/crossid/crossid-spa-js/blob/376a082/src/client.ts#L217">src/client.ts:217</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="post_logout_redirect_uri" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> post_<wbr>logout_<wbr>redirect_<wbr>uri</h3>
+					<div class="tsd-signature tsd-kind-icon">post_<wbr>logout_<wbr>redirect_<wbr>uri<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/crossid/crossid-spa-js/blob/376a082/src/client.ts#L215">src/client.ts:215</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The URL which the authorization provider will redirect the browser after a successful logout.</p>
+						</div>
+						<p>Please make sure to whitelist this URL in the authorization provider.</p>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
 					<a name="scope" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagOptional">Optional</span> scope</h3>
 					<div class="tsd-signature tsd-kind-icon">scope<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/crossid/crossid-spa-js/blob/73cc753/src/client.ts#L205">src/client.ts:205</a></li>
+							<li>Defined in <a href="https://github.com/crossid/crossid-spa-js/blob/376a082/src/client.ts#L222">src/client.ts:222</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
 							<p>The scopes that were requested when authenticated.</p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="state" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> state</h3>
+					<div class="tsd-signature tsd-kind-icon">state<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">any</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/crossid/crossid-spa-js/blob/376a082/src/client.ts#L232">src/client.ts:232</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>state can be used by the application to preserve some state.</p>
 						</div>
 					</div>
 				</section>
@@ -139,16 +183,16 @@
 			<nav class="tsd-navigation secondary menu-sticky">
 				<ul class="before-current">
 					<li class=" tsd-kind-class">
-						<a href="../classes/client.html" class="tsd-kind-icon">Client</a>
+						<a href="../classes/Client.html" class="tsd-kind-icon">Client</a>
 					</li>
 					<li class=" tsd-kind-function">
-						<a href="../modules.html#newcrossidclient" class="tsd-kind-icon">new<wbr>Crossid<wbr>Client</a>
+						<a href="../modules.html#newCrossidClient" class="tsd-kind-icon">new<wbr>Crossid<wbr>Client</a>
 					</li>
 					<li class=" tsd-kind-function">
-						<a href="../modules.html#newcrossidclientbydiscovery" class="tsd-kind-icon">new<wbr>Crossid<wbr>Client<wbr>ByDiscovery</a>
+						<a href="../modules.html#newCrossidClientByDiscovery" class="tsd-kind-icon">new<wbr>Crossid<wbr>Client<wbr>ByDiscovery</a>
 					</li>
 					<li class=" tsd-kind-function">
-						<a href="../modules.html#newcrossidclientcustom" class="tsd-kind-icon">new<wbr>Crossid<wbr>Client<wbr>Custom</a>
+						<a href="../modules.html#newCrossidClientCustom" class="tsd-kind-icon">new<wbr>Crossid<wbr>Client<wbr>Custom</a>
 					</li>
 				</ul>
 			</nav>

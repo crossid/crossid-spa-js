@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>AuthorizationOpts | @crossid/crossid-spa-js</title>
+	<title>GetUserOpts | @crossid/crossid-spa-js</title>
 	<meta name="description" content="Documentation for @crossid/crossid-spa-js">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -55,10 +55,10 @@
 					<a href="../modules.html">@crossid/crossid-spa-js</a>
 				</li>
 				<li>
-					<a href="authorizationopts.html">AuthorizationOpts</a>
+					<a href="GetUserOpts.html">GetUserOpts</a>
 				</li>
 			</ul>
-			<h1>Interface AuthorizationOpts</h1>
+			<h1>Interface GetUserOpts</h1>
 		</div>
 	</div>
 </header>
@@ -68,7 +68,7 @@
 			<section class="tsd-panel tsd-comment">
 				<div class="tsd-comment tsd-typography">
 					<div class="lead">
-						<p>Options when requesting an authorization code.</p>
+						<p>Options for the <code>GetUser</code> method.</p>
 					</div>
 				</div>
 			</section>
@@ -76,12 +76,7 @@
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<span class="tsd-signature-type">Partial</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">BaseAuthorizationCodeParams</span><span class="tsd-signature-symbol">&gt;</span>
-						<ul class="tsd-hierarchy">
-							<li>
-								<span class="target">AuthorizationOpts</span>
-							</li>
-						</ul>
+						<span class="target">GetUserOpts</span>
 					</li>
 				</ul>
 			</section>
@@ -92,11 +87,8 @@
 						<section class="tsd-index-section ">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="authorizationopts.html#audience" class="tsd-kind-icon">audience</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="authorizationopts.html#redirect_uri" class="tsd-kind-icon">redirect_<wbr>uri</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="authorizationopts.html#response_type" class="tsd-kind-icon">response_<wbr>type</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="authorizationopts.html#scope" class="tsd-kind-icon">scope</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="authorizationopts.html#state" class="tsd-kind-icon">state</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="GetUserOpts.html#audience" class="tsd-kind-icon">audience</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="GetUserOpts.html#scope" class="tsd-kind-icon">scope</a></li>
 							</ul>
 						</section>
 					</div>
@@ -104,85 +96,33 @@
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Properties</h2>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
 					<a name="audience" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagOptional">Optional</span> audience</h3>
 					<div class="tsd-signature tsd-kind-icon">audience<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span></div>
 					<aside class="tsd-sources">
-						<p>Inherited from Partial.audience</p>
 						<ul>
-							<li>Defined in <a href="https://github.com/crossid/crossid-spa-js/blob/73cc753/src/client.ts#L59">src/client.ts:59</a></li>
+							<li>Defined in <a href="https://github.com/crossid/crossid-spa-js/blob/376a082/src/client.ts#L188">src/client.ts:188</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>Defines the requested audience when performing an authorization code request.</p>
-						</div>
-					</div>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
-					<a name="redirect_uri" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> redirect_<wbr>uri</h3>
-					<div class="tsd-signature tsd-kind-icon">redirect_<wbr>uri<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
-					<aside class="tsd-sources">
-						<p>Inherited from Partial.redirect_uri</p>
-						<ul>
-							<li>Defined in <a href="https://github.com/crossid/crossid-spa-js/blob/73cc753/src/client.ts#L69">src/client.ts:69</a></li>
-						</ul>
-					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>The URL is where authorization server will redirect browser upon a successful authentication.</p>
-						</div>
-						<p>Please make sure to whitelist this URL in the authorization provider.</p>
-					</div>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
-					<a name="response_type" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> response_<wbr>type</h3>
-					<div class="tsd-signature tsd-kind-icon">response_<wbr>type<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
-					<aside class="tsd-sources">
-						<p>Inherited from Partial.response_type</p>
-						<ul>
-							<li>Defined in <a href="https://github.com/crossid/crossid-spa-js/blob/73cc753/src/client.ts#L63">src/client.ts:63</a></li>
-						</ul>
-					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>Defines the requested response type when performing an authorization code request.</p>
-						</div>
-					</div>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
-					<a name="scope" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> scope</h3>
-					<div class="tsd-signature tsd-kind-icon">scope<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
-					<aside class="tsd-sources">
-						<p>Inherited from Partial.scope</p>
-						<ul>
-							<li>Defined in <a href="https://github.com/crossid/crossid-spa-js/blob/73cc753/src/client.ts#L73">src/client.ts:73</a></li>
-						</ul>
-					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>Defines the requested scopes.</p>
+							<p>The audience that were requested when authenticated.</p>
 						</div>
 					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="state" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> state</h3>
-					<div class="tsd-signature tsd-kind-icon">state<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">any</span></div>
+					<a name="scope" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> scope</h3>
+					<div class="tsd-signature tsd-kind-icon">scope<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/crossid/crossid-spa-js/blob/73cc753/src/client.ts#L180">src/client.ts:180</a></li>
+							<li>Defined in <a href="https://github.com/crossid/crossid-spa-js/blob/376a082/src/client.ts#L183">src/client.ts:183</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>state can be used by the application to preserve some state.
-								for example, the application may provide a state that contains the return to url where user
-							should be redirected to upon completion of a successful login.</p>
+							<p>The scopes that were requested when authenticated.</p>
 						</div>
 					</div>
 				</section>
@@ -199,16 +139,16 @@
 			<nav class="tsd-navigation secondary menu-sticky">
 				<ul class="before-current">
 					<li class=" tsd-kind-class">
-						<a href="../classes/client.html" class="tsd-kind-icon">Client</a>
+						<a href="../classes/Client.html" class="tsd-kind-icon">Client</a>
 					</li>
 					<li class=" tsd-kind-function">
-						<a href="../modules.html#newcrossidclient" class="tsd-kind-icon">new<wbr>Crossid<wbr>Client</a>
+						<a href="../modules.html#newCrossidClient" class="tsd-kind-icon">new<wbr>Crossid<wbr>Client</a>
 					</li>
 					<li class=" tsd-kind-function">
-						<a href="../modules.html#newcrossidclientbydiscovery" class="tsd-kind-icon">new<wbr>Crossid<wbr>Client<wbr>ByDiscovery</a>
+						<a href="../modules.html#newCrossidClientByDiscovery" class="tsd-kind-icon">new<wbr>Crossid<wbr>Client<wbr>ByDiscovery</a>
 					</li>
 					<li class=" tsd-kind-function">
-						<a href="../modules.html#newcrossidclientcustom" class="tsd-kind-icon">new<wbr>Crossid<wbr>Client<wbr>Custom</a>
+						<a href="../modules.html#newCrossidClientCustom" class="tsd-kind-icon">new<wbr>Crossid<wbr>Client<wbr>Custom</a>
 					</li>
 				</ul>
 			</nav>
