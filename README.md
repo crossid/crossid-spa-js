@@ -27,6 +27,7 @@ const crossid = newCrossidClient({
   tenant_id: 'indexia',
   client_id: 'my-client-id',
   audience: ['example.com'],
+  domain: 'acme.us.crossid.io'
   scope: 'openid profile',
   redirect_uri: 'http://localhost:3009',
   // use session_storage or local_storage for a persistent cache.

@@ -1,5 +1,13 @@
 # @crossid/crossid-spa-js
 
+## 0.4.4
+
+[All Changes](https://github.com/crossid/crossid-spa-js/compare/v0.4.3...v0.4.4)
+
+### Major Changes
+
+Replacing `tenant` & `region` with `domain`
+
 ## 0.4.3
 
 [All Changes](https://github.com/crossid/crossid-spa-js/compare/v0.4.2...v0.4.3)
