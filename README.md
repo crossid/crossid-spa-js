@@ -23,13 +23,14 @@ Init a [client](https://crossid.github.io/crossid-spa-js/classes/client.html):
 ```js
 import { newCrossidClient, Client } from '@crossid/crossid-spa-js'
 const crossid = newCrossidClient({
-  // your crossid tenant
-  tenant_id: 'indexia',
+  domain: 'acme.us.crossid.io',
   client_id: 'my-client-id',
-  audience: ['example.com'],
-  domain: 'acme.us.crossid.io'
-  scope: 'openid profile',
-  redirect_uri: 'http://localhost:3009',
+  authorizationOpts: {
+    audience: ['example.com'],
+    domain: 'acme.us.crossid.io'
+    scope: 'openid profile',
+    redirect_uri: 'http://localhost:3009',
+  }
   // use session_storage or local_storage for a persistent cache.
   cache_type: 'memory',
 })

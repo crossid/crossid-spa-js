@@ -50,7 +50,7 @@ type tokenTypes = 'access_token' | 'id_token' | 'refresh_token'
 /**
  * Describes the parameters required in order to perform an authorization code request.
  */
-interface BaseAuthorizationCodeParams {
+export interface BaseAuthorizationCodeParams {
   /**
    * Defines the requested audience when performing an authorization code request.
    */
@@ -74,7 +74,7 @@ interface BaseAuthorizationCodeParams {
 /**
  * Base client options required to configure a new client.
  */
-export interface BaseClientOpts extends Partial<BaseAuthorizationCodeParams> {
+export interface BaseClientOpts {
   /**
    * OAuth2 client identifier of your application.
    */
@@ -103,6 +103,8 @@ export interface BaseClientOpts extends Partial<BaseAuthorizationCodeParams> {
    * The template ID to display in the login/consent flow
    */
   template_id?: string
+
+  authorizationOpts: BaseAuthorizationCodeParams
 }
 
 /**
@@ -265,7 +267,7 @@ export default class CrossidClient {
   constructor(private opts: ClientOpts) {
     this.loginStateKey = LOGIN_STATE_KEY
     this.logoutStateKey = LOGOUT_STATE_KEY
-    this.scope = opts.scope
+    this.scope = opts.authorizationOpts.scope
 
     this.state = this._stateFactory(this.opts.state_type || CACHE_SS)
     this.cache = this._cacheFactory(this.opts.cache_type || CACHE_INMEM)
@@ -583,8 +585,12 @@ export default class CrossidClient {
     return {
       client_id: this.opts.client_id,
       audience: this.getFinalAudience(opts.audience),
-      response_type: opts.response_type || this.opts.response_type || 'code',
-      redirect_uri: opts.redirect_uri || this.opts.redirect_uri,
+      response_type:
+        opts.response_type ||
+        this.opts.authorizationOpts.response_type ||
+        'code',
+      redirect_uri:
+        opts.redirect_uri || this.opts.authorizationOpts.redirect_uri,
       nonce: opts.nonce,
       state: opts.state,
       scope: this.getFinalScope(opts.scope).join(' '),
@@ -616,7 +622,7 @@ export default class CrossidClient {
 
     return {
       request,
-      audience: opts.audience || this.opts.audience,
+      audience: opts.audience || this.opts.authorizationOpts.audience,
       scopes: (opts.scope || this.scope).split(' '),
       appState: opts.state,
     }
@@ -942,7 +948,7 @@ export default class CrossidClient {
   }
 
   private getFinalAudience(localAud: string[]): string[] {
-    return localAud || this.opts.audience
+    return localAud || this.opts.authorizationOpts.audience
   }
 
   private getFinalScope(localScp: string): string[] {

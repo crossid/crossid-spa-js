@@ -3,7 +3,7 @@
   <head>
     <title>crossid-spa-js playground</title>
     <meta charset="utf-8" />
-    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,typography,aspect-ratio,line-clamp"></script>
   </head>
   <body>
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
@@ -14,13 +14,7 @@
       <div v-if="!loading" class="relative max-w-3xl mx-auto">
         <div class="text-center">
           <h2
-            class="
-              text-3xl
-              font-extrabold
-              tracking-tight
-              text-gray-900
-              sm:text-4xl
-            "
+            class="text-3xl font-extrabold tracking-tight text-gray-900 sm:text-4xl"
           >
             <a href="https://github.com/crossid/crossid-spa-js"
               >crossid-spa-js playground</a
@@ -233,14 +227,7 @@
                   type="radio"
                   v-bind:value="ct.id"
                   v-model="cacheType"
-                  class="
-                    focus:ring-indigo-500
-                    h-4
-                    w-4
-                    text-indigo-600
-                    border-gray-300
-                    rounded
-                  "
+                  class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded"
                 />
                 <label
                   :for="ct.id"
@@ -263,14 +250,7 @@
                 <input
                   type="checkbox"
                   v-model="logoutClientScope"
-                  class="
-                    focus:ring-indigo-500
-                    h-4
-                    w-4
-                    text-indigo-600
-                    border-gray-300
-                    rounded
-                  "
+                  class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded"
                 />
                 <label
                   for="logoutType"
@@ -285,23 +265,7 @@
             <button
               @click="saveOptions"
               type="button"
-              class="
-                inline-flex
-                items-center
-                px-2.5
-                py-1.5
-                border border-transparent
-                text-xs
-                font-medium
-                rounded
-                text-indigo-700
-                bg-indigo-100
-                hover:bg-indigo-200
-                focus:outline-none
-                focus:ring-2
-                focus:ring-offset-2
-                focus:ring-indigo-500
-              "
+              class="inline-flex items-center px-2.5 py-1.5 border border-transparent text-xs font-medium rounded text-indigo-700 bg-indigo-100 hover:bg-indigo-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
             >
               Save
             </button>
@@ -314,97 +278,26 @@
             <div class="flex justify-start">
               <button
                 @click="loginWithRedirect"
-                class="
-                  ml-3
-                  inline-flex
-                  justify-center
-                  py-2
-                  px-4
-                  border border-transparent
-                  shadow-sm
-                  text-sm
-                  font-medium
-                  rounded-md
-                  text-white
-                  bg-indigo-600
-                  hover:bg-indigo-700
-                  focus:outline-none
-                  focus:ring-2
-                  focus:ring-offset-2
-                  focus:ring-indigo-500
-                "
+                class="ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
               >
                 Login by redirect
               </button>
               <button
                 @click="signupWithRedirect"
-                class="
-                  ml-3
-                  inline-flex
-                  justify-center
-                  py-2
-                  px-4
-                  border border-transparent
-                  shadow-sm
-                  text-sm
-                  font-medium
-                  rounded-md
-                  text-white
-                  bg-indigo-600
-                  hover:bg-indigo-700
-                  focus:outline-none
-                  focus:ring-2
-                  focus:ring-offset-2
-                  focus:ring-indigo-500
-                "
+                class="ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
               >
                 Signup by redirect
               </button>
               <button
                 @click="handleRedirectCallback"
-                class="
-                  ml-3
-                  inline-flex
-                  justify-center
-                  py-2
-                  px-4
-                  border border-transparent
-                  shadow-sm
-                  text-sm
-                  font-medium
-                  rounded-md
-                  text-white
-                  bg-indigo-600
-                  hover:bg-indigo-700
-                  focus:outline-none
-                  focus:ring-2
-                  focus:ring-offset-2
-                  focus:ring-indigo-500
-                "
+                class="ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
               >
                 <div
                   v-if="codeInURL"
-                  class="
-                    absolute
-                    bottom-0
-                    flex flex-col
-                    items-center
-                    mb-10
-                    group-hover:flex
-                  "
+                  class="absolute bottom-0 flex flex-col items-center mb-10 group-hover:flex"
                 >
                   <span
-                    class="
-                      relative
-                      z-10
-                      p-2
-                      text-xs
-                      leading-none
-                      text-white
-                      whitespace-no-wrap
-                      bg-black
-                      shadow-lg
-                    "
+                    class="relative z-10 p-2 text-xs leading-none text-white whitespace-no-wrap bg-black shadow-lg"
                     >Looks like we got a code, click to complete the
                     login.</span
                   >
@@ -414,145 +307,38 @@
               </button>
               <button
                 @click="getUser"
-                class="
-                  ml-3
-                  inline-flex
-                  justify-center
-                  py-2
-                  px-4
-                  border border-transparent
-                  shadow-sm
-                  text-sm
-                  font-medium
-                  rounded-md
-                  text-white
-                  bg-indigo-600
-                  hover:bg-indigo-700
-                  focus:outline-none
-                  focus:ring-2
-                  focus:ring-offset-2
-                  focus:ring-indigo-500
-                "
+                class="ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
               >
                 Get User
               </button>
               <button
                 @click="getAccessToken"
-                class="
-                  ml-3
-                  inline-flex
-                  justify-center
-                  py-2
-                  px-4
-                  border border-transparent
-                  shadow-sm
-                  text-sm
-                  font-medium
-                  rounded-md
-                  text-white
-                  bg-indigo-600
-                  hover:bg-indigo-700
-                  focus:outline-none
-                  focus:ring-2
-                  focus:ring-offset-2
-                  focus:ring-indigo-500
-                "
+                class="ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
               >
                 Get Access Token
               </button>
               <button
                 @click="introspectAccessToken"
-                class="
-                  ml-3
-                  inline-flex
-                  justify-center
-                  py-2
-                  px-4
-                  border border-transparent
-                  shadow-sm
-                  text-sm
-                  font-medium
-                  rounded-md
-                  text-white
-                  bg-indigo-600
-                  hover:bg-indigo-700
-                  focus:outline-none
-                  focus:ring-2
-                  focus:ring-offset-2
-                  focus:ring-indigo-500
-                "
+                class="ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
               >
                 Introspect Access Token
               </button>
               <button
                 @click="logout"
-                class="
-                  ml-3
-                  inline-flex
-                  justify-center
-                  py-2
-                  px-4
-                  border border-transparent
-                  shadow-sm
-                  text-sm
-                  font-medium
-                  rounded-md
-                  text-white
-                  bg-indigo-600
-                  hover:bg-indigo-700
-                  focus:outline-none
-                  focus:ring-2
-                  focus:ring-offset-2
-                  focus:ring-indigo-500
-                "
+                class="ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
               >
                 Logout
               </button>
               <button
                 @click="handleLogoutRedirectCallback"
-                class="
-                  ml-3
-                  inline-flex
-                  justify-center
-                  py-2
-                  px-4
-                  border border-transparent
-                  shadow-sm
-                  text-sm
-                  font-medium
-                  rounded-md
-                  text-white
-                  bg-indigo-600
-                  hover:bg-indigo-700
-                  focus:outline-none
-                  focus:ring-2
-                  focus:ring-offset-2
-                  focus:ring-indigo-500
-                "
+                class="ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
               >
                 <div
                   v-if="stateInURL"
-                  class="
-                    absolute
-                    bottom-0
-                    flex flex-col
-                    items-center
-                    mb-10
-                    group-hover:flex
-                  "
+                  class="absolute bottom-0 flex flex-col items-center mb-10 group-hover:flex"
                 >
                   <span
-                    class="
-                      relative
-                      z-10
-                      p-2
-                      text-xs
-                      leading-none
-                      text-white
-                      whitespace-no-wrap
-                      bg-black
-                      shadow-lg
-                    "
+                    class="relative z-10 p-2 text-xs leading-none text-white whitespace-no-wrap bg-black shadow-lg"
                     >Looks like we got a code, click to complete the
                     login.</span
                   >
@@ -666,7 +452,7 @@
               `,
       })
       import {
-        Client as CidClient,
+        Client as CidClienpmnt,
         newCrossidClient,
         newCrossidClientByDiscovery,
         newCrossidClientCustom,
@@ -745,10 +531,12 @@
           clientOptions: function () {
             const opts = {
               client_id: this.clientID,
-              audience: this.audience,
-              scope: this.scope,
-              cache_type: this.cacheType,
-              redirect_uri: window.location.href,
+              authorizationOpts: {
+                audience: this.audience,
+                scope: this.scope,
+                cache_type: this.cacheType,
+                redirect_uri: window.location.href,
+              },
             }
             switch (this.selectedTab) {
               case 0: {
@@ -790,6 +578,7 @@
             let crossid
             try {
               const opts = this.clientOptions()
+              console.log('@@@@@@@@@@', opts)
               switch (this.selectedTab) {
                 case 0: {
                   crossid = await newCrossidClient(opts)

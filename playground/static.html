@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <!--
+    The script is packed as a _universal module definition_ (aka: UMD\_) which exposes a single object named `crossid`, which contains the SDK to manage user authentication such as signing users in and out.
+    -->
+    <!-- <script src="../dist/crossid-spa-js.js"></script> -->
+  </head>
+  <body>
+    <!-- clicking on this button starts the signin process -->
+    <button id="login">Login</button>
+    <!-- will contain the user details once the user signs-in -->
+    <p id="profile"></p>
+    <script type="module">
+      import { newCrossidClient } from '../dist/index.js'
+
+      window.onload = async () => {
+        // configure the client
+        const client = await newCrossidClient({
+          domain: 'dev1.us.local.crossid.io',
+          // your oauth2 client_id
+          client_id: 'hOqdIuFhWysOb3y5Ytn3WTp5mbWoQmmZ',
+          authorizationOpts: {
+            // the audience to request access for
+            audience: ['default'],
+            // the scopes to be requested
+            scope: 'customer openid profile email',
+            // where to redirect upon a completion of a successful signin
+            redirect_uri: 'http://localhost:8001/playground/static.html',
+          },
+        })
+
+        const qp = new URLSearchParams(window.location.search)
+        // if we see in URL a code then it means the user was signed in successfully
+        if (qp.has('code')) {
+          // completes the flow
+          await client.handleRedirectCallback()
+          // remove the 'code' query param from URL
+          window.history.replaceState(null, document.title, '/')
+        }
+
+        document.getElementById('login').addEventListener('click', async () => {
+          // redirect browser to the login page
+          await client.loginWithRedirect()
+        })
+
+        // get user from cache.
+        const user = await client.getUser()
+        if (user) {
+          document.getElementById('login').style.display = 'none'
+          document.getElementById('profile').innerHTML = `Hi ${user.email}`
+        } else {
+          document.getElementById(
+            'profile'
+          ).innerHTML = `User is not authenticated, please login.`
+        }
+      }
+    </script>
+  </body>
+</html>
