@@ -3,13 +3,11 @@
  */
 import { TEST_LOGOUT_ENDPOINT } from './const'
 import { TextEncoder } from 'util'
-import { Crypto } from '@peculiar/webcrypto'
 import { mockCodeToTokenFetch, setup } from './helper'
 import CrossidClient from '../../src/client'
 import { SessionStorageCache } from '../../src/cache'
 import { LogoutState } from '../../src/types'
 import { LOGOUT_STATE_KEY } from '../../src/const'
-global.crypto = new Crypto()
 global.TextEncoder = TextEncoder
 
 describe('createLogoutRedirectURL', () => {

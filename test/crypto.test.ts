@@ -8,9 +8,8 @@ import {
   sha256,
 } from '../src/crypto'
 // pollyfils
-import { Crypto } from '@peculiar/webcrypto'
 import { TextEncoder } from 'util'
-global.crypto = new Crypto()
+
 global.TextEncoder = TextEncoder
 
 describe('sha256', () => {

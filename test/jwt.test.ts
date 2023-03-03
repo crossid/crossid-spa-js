@@ -2,7 +2,7 @@
  * @jest-environment jsdom
  */
 import { assert, decode } from '../src/jwt'
-import { DecodedJWT, IDToken, JWTClaims, JWTHeader } from '../src/types'
+import { DecodedJWT, IDToken, JWTClaims } from '../src/types'
 import { TextEncoder } from 'util'
 import { createJWT } from './helper'
 global.TextEncoder = TextEncoder

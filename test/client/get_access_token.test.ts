@@ -2,9 +2,7 @@
  * @jest-environment jsdom
  */
 import { TextEncoder } from 'util'
-import { Crypto } from '@peculiar/webcrypto'
 import { mockCodeToTokenFetch, setup } from './helper'
-global.crypto = new Crypto()
 global.TextEncoder = TextEncoder
 
 describe('getAccessToken', () => {

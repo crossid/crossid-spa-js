@@ -2,10 +2,8 @@
  * @jest-environment jsdom
  */
 import { TextEncoder } from 'util'
-import { Crypto } from '@peculiar/webcrypto'
 import { mockCodeToTokenFetch, setup } from './helper'
 import { BEARER_CLAIM } from '../../src/const'
-global.crypto = new Crypto()
 global.TextEncoder = TextEncoder
 
 describe('getUser', () => {

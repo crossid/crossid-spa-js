@@ -10,7 +10,7 @@ interface Cert {
 
 const createPrivateKey = () => {
   const { privateKey } = generateKeyPairSync('rsa', {
-    modulusLength: 1024,
+    modulusLength: 2048,
   })
   const pkey = privateKey.export({
     format: 'pem',

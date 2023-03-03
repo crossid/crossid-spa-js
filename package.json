@@ -37,22 +37,23 @@
     "url": "https://github.com/crossid/crossid-spa-js/issues"
   },
   "devDependencies": {
-    "@peculiar/webcrypto": "^1.4.1",
-    "@rollup/plugin-commonjs": "^19.0.0",
-    "@rollup/plugin-node-resolve": "^11.2.1",
-    "@rollup/plugin-typescript": "^8.2.1",
-    "@types/jest": "^26.0.23",
+    "@rollup/plugin-commonjs": "^24.0.1",
+    "@rollup/plugin-node-resolve": "^15.0.1",
+    "@rollup/plugin-typescript": "^11.0.0",
+    "@types/jest": "^29.4.0",
     "@types/jsonwebtoken": "^9.0.1",
     "@types/pem": "^1.9.6",
-    "@web/dev-server": "^0.1.17",
-    "concurrently": "^6.2.0",
-    "jest": "^27.0.6",
-    "jsonwebtoken": "^8.5.1",
-    "prettier": "^2.3.2",
+    "@web/dev-server": "^0.1.35",
+    "concurrently": "^7.6.0",
+    "jest": "^29.4.3",
+    "jest-environment-jsdom": "^29.4.3",
+    "jsonwebtoken": "^9.0.0",
+    "prettier": "^2.8.4",
+    "rollup": "^2.79.1",
     "rollup-plugin-delete": "^2.0.0",
     "rollup-plugin-terser": "^7.0.2",
-    "ts-jest": "^27.0.3",
-    "typedoc": "^0.21.2",
-    "typescript": "^4.3.4"
+    "ts-jest": "^29.0.5",
+    "typedoc": "^0.23.26",
+    "typescript": "^4.9.5"
   }
 }

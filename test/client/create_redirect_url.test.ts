@@ -7,9 +7,7 @@ import {
   TEST_REDIRECT_URI,
 } from './const'
 import { TextEncoder } from 'util'
-import { Crypto } from '@peculiar/webcrypto'
 import { assertURLSearchParams, setup } from './helper'
-global.crypto = new Crypto()
 global.TextEncoder = TextEncoder
 
 describe('handleRedirectCallback', () => {

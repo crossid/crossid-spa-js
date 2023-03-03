@@ -6,7 +6,7 @@ import {
 
 // sha256 hash s using the sha256 algorithm.
 export const sha256 = async (s: string) => {
-  const d = window.crypto.subtle.digest(
+  const d = getCrypto().subtle.digest(
     { name: 'SHA-256' },
     new TextEncoder().encode(s)
   )
@@ -16,7 +16,7 @@ export const sha256 = async (s: string) => {
 
 // generateRandomString generates a cryptography random string with the size of len using only chars of charset.
 export const generateRandomString = (charset: string, len: number) => {
-  const rv = Array.from(window.crypto.getRandomValues(new Uint8Array(len)))
+  const rv = Array.from(getCrypto().getRandomValues(new Uint8Array(len)))
   return rv.map((v) => charset[v % charset.length]).join('')
 }
 
@@ -28,4 +28,17 @@ export const generatePKCECodeVerifier = () => {
         PKCE_CODE_MIN_LEN
     )
   )
+}
+
+const getCrypto = () => {
+  const crypto = window.crypto
+  if (!crypto) {
+    throw new Error('window.crypto is not available')
+  }
+  if (!crypto.subtle) {
+    throw new Error(
+      'running on an unsecured origin, please see https://developer.mozilla.org/en-US/docs/Web/API/Crypto/subtle'
+    )
+  }
+  return crypto
 }
