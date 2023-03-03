@@ -3,10 +3,11 @@
   "out": "docs",
   "excludePrivate": true,
   "hideGenerator": true,
-  "toc": [
-    "newCrossidClient",
-    "newCrossidClientByDiscovery",
-    "newCrossidClientCustom",
-    "Client"
-  ]
+  "navigationLinks": {
+    "Crossid.io": "https://crossid.io",
+    "Developer Docs": "https://crossid.io/docs"
+  },
+  "sidebarLinks": {
+    "Quickstart": "https://crossid.io/docs/frameworks/js"
+  }
 }

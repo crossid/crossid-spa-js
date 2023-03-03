@@ -11,7 +11,13 @@ import Client, {
 import { OAuth2Error } from './errors'
 import { CROSSID_DEFAULT_AUTHORIZATION_SERVER } from './const'
 
-import { IDToken } from './types'
+import {
+  IDToken,
+  IDTokenAddressClaim,
+  LoginCompleteResponse,
+  LogoutCompleteResponse,
+  JWTClaims,
+} from './types'
 
 /**
  * Creates a new client by a crossid tenant.
@@ -72,6 +78,10 @@ export async function newCrossidClientCustom(opts: ClientOpts) {
 export {
   Client,
   IDToken,
+  IDTokenAddressClaim,
+  LoginCompleteResponse,
+  LogoutCompleteResponse,
+  JWTClaims,
   ClientOpts,
   ClientDiscoveryOpts,
   ClientCrossidOpts,

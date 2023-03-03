@@ -1,4 +1,8 @@
-interface IDTokenAddressClaim {
+/**
+ * IDToken address claim
+ * see https://openid.net/specs/openid-connect-core-1_0.html#AddressClaim
+ */
+export interface IDTokenAddressClaim {
   formatted?: string
   street_address?: string
   locality?: string
