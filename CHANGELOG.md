@@ -1,5 +1,9 @@
 # @crossid/crossid-spa-js
 
+## 0.4.5
+
+[All Changes](https://github.com/crossid/crossid-spa-js/compare/v0.4.4...v0.4.5)
+
 ## 0.4.4
 
 [All Changes](https://github.com/crossid/crossid-spa-js/compare/v0.4.3...v0.4.4)
