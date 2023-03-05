@@ -104,7 +104,7 @@ export interface BaseClientOpts {
    */
   template_id?: string
 
-  authorizationOpts: BaseAuthorizationCodeParams
+  authorizationOpts: Partial<BaseAuthorizationCodeParams>
 }
 
 /**

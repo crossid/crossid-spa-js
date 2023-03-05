@@ -20,11 +20,13 @@ export const createSetup = () => {
       token_endpoint: TEST_TOKEN_ENDPOINT,
       logout_endpoint: TEST_LOGOUT_ENDPOINT,
       client_id: TEST_CLIENT_ID,
-      redirect_uri: TEST_REDIRECT_URI,
       issuer: TEST_ISSUER,
-      audience: TEST_AUDIENCE,
-      scope: TEST_SCOPE,
-      ...opts,
+      authorizationOpts: {
+        redirect_uri: TEST_REDIRECT_URI,
+        audience: TEST_AUDIENCE,
+        scope: TEST_SCOPE,
+        ...opts,
+      },
     })
 
     return cl
