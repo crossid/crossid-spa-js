@@ -2,6 +2,7 @@ import resolve from '@rollup/plugin-node-resolve'
 import typescript from '@rollup/plugin-typescript'
 import commonjs from '@rollup/plugin-commonjs'
 import del from 'rollup-plugin-delete'
+import terser from '@rollup/plugin-terser'
 
 const isProduction = process.env.NODE_ENV === 'production'
 
@@ -23,6 +24,6 @@ export default (async () => ({
     resolve(),
     commonjs(),
     typescript(),
-    isProduction && (await import('rollup-plugin-terser')).terser(),
+    isProduction && (await terser()),
   ],
 }))()
