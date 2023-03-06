@@ -1,5 +1,13 @@
 # @crossid/crossid-spa-js
 
+## 0.4.6
+
+[All Changes](https://github.com/crossid/crossid-spa-js/compare/v0.4.5...v0.4.6)
+
+### Minor Changes
+
+`dist` package distributed types twice due to issues in `@rollup/plugin-typescript`
+
 ## 0.4.5
 
 [All Changes](https://github.com/crossid/crossid-spa-js/compare/v0.4.4...v0.4.5)
