@@ -1,10 +1,8 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <!--
-    The script is packed as a _universal module definition_ (aka: UMD\_) which exposes a single object named `crossid`, which contains the SDK to manage user authentication such as signing users in and out.
-    -->
-    <!-- <script src="../dist/crossid-spa-js.js"></script> -->
+    <!-- UMD that exposes a single object named `crossid`, e.g., `crossid.newCrossidClient({...})` -->
+    <!-- <script src="http://localhost:8001/dist/crossid-spa-js.js"></script> -->
   </head>
   <body>
     <!-- clicking on this button starts the signin process -->
@@ -12,7 +10,7 @@
     <!-- will contain the user details once the user signs-in -->
     <p id="profile"></p>
     <script type="module">
-      import { newCrossidClient } from '../dist/index.js'
+      import { newCrossidClient } from 'http://localhost:8001/dist/index.js'
 
       window.onload = async () => {
         // configure the client

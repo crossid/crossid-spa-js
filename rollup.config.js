@@ -1,5 +1,5 @@
 import resolve from '@rollup/plugin-node-resolve'
-import typescript from '@rollup/plugin-typescript'
+import typescript from 'rollup-plugin-typescript2'
 import commonjs from '@rollup/plugin-commonjs'
 import del from 'rollup-plugin-delete'
 import terser from '@rollup/plugin-terser'
@@ -23,7 +23,7 @@ export default (async () => ({
     del({ targets: 'dist/*', runOnce: true }),
     resolve(),
     commonjs(),
-    typescript(),
+    typescript({ useTsconfigDeclarationDir: true }),
     isProduction && (await terser()),
   ],
 }))()
