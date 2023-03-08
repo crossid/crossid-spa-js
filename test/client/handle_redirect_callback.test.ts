@@ -16,10 +16,10 @@ describe('createRedirectURL', () => {
     const url = new URL('https://myapp')
     url.searchParams.append('code', 'mocked-code')
     global.fetch = await mockCodeToTokenFetch({ nonce })
-    expect(await cid.handleRedirectCallback(url)).toEqual({
+    expect(await cid.handleLoginRedirectCallback(url)).toEqual({
       state: { returnTo: '/foo' },
     })
-    expect(() => cid.handleRedirectCallback(url)).rejects.toThrow(
+    expect(() => cid.handleLoginRedirectCallback(url)).rejects.toThrow(
       'invalid state'
     )
   })
@@ -45,6 +45,6 @@ describe('createRedirectURL', () => {
     await cid.createRedirectURL()
     const url = new URL('https://myapp')
     url.searchParams.append('code', 'mocked-code')
-    expect(() => cid.handleRedirectCallback(url)).rejects.toThrow('malformed')
+    expect(() => cid.handleLoginRedirectCallback(url)).rejects.toThrow('malformed')
   })
 })

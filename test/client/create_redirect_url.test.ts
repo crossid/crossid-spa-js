@@ -10,7 +10,7 @@ import { TextEncoder } from 'util'
 import { assertURLSearchParams, setup } from './helper'
 global.TextEncoder = TextEncoder
 
-describe('handleRedirectCallback', () => {
+describe('handleLoginRedirectCallback', () => {
   it('should exchange a code with a token', async () => {
     const cid = setup()
     const urls = await cid.createRedirectURL()

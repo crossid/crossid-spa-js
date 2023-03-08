@@ -21,7 +21,7 @@ describe('createLogoutRedirectURL', () => {
     global.fetch = await mockCodeToTokenFetch({
       nonce: authCodeUrl.searchParams.get('nonce') || '',
     })
-    await cid.handleRedirectCallback(loginURL)
+    await cid.handleLoginRedirectCallback(loginURL)
 
     // login assertions
     //

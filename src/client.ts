@@ -337,12 +337,12 @@ export default class CrossidClient {
 
   /**
    * Call this method in order to complete authentication flow.
-   * this method should be called after the End-User sucessfully signs-in.
+   * this method should be called after the End-User successfully signs-in.
    *
    * @param url the URL returned from the authorization code endpoint, defaults to `window.location.href`
    * @returns
    */
-  public async handleRedirectCallback(
+  public async handleLoginRedirectCallback(
     url: URL = new URL(window.location.href)
   ): Promise<LoginCompleteResponse> {
     const sp = url.searchParams

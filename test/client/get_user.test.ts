@@ -20,7 +20,7 @@ describe('getUser', () => {
     const url = new URL('https://myapp')
     url.searchParams.append('code', 'mocked-code')
     global.fetch = await mockCodeToTokenFetch({ nonce, expiresIn: 1 })
-    await cid.handleRedirectCallback(url)
+    await cid.handleLoginRedirectCallback(url)
     const u = await cid.getUser()
     expect(u).toBeDefined()
     expect(u).toHaveProperty('family_name', 'jared@example.com')

@@ -19,7 +19,7 @@ describe('getAccessToken', () => {
     const url = new URL('https://myapp')
     url.searchParams.append('code', 'mocked-code')
     global.fetch = await mockCodeToTokenFetch({ nonce, expiresIn: 1 })
-    await cid.handleRedirectCallback(url)
+    await cid.handleLoginRedirectCallback(url)
     expect(await cid.getAccessToken()).toBeDefined()
     await new Promise((res) => setTimeout(res, 1100))
     // expired
