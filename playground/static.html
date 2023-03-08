@@ -32,7 +32,7 @@
         // if we see in URL a code then it means the user was signed in successfully
         if (qp.has('code')) {
           // completes the flow
-          await client.handleRedirectCallback()
+          await client.handleLoginRedirectCallback()
           // remove the 'code' query param from URL
           window.history.replaceState(null, document.title, '/')
         }

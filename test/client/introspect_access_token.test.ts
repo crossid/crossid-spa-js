@@ -19,7 +19,7 @@ describe('introspectAccessToken', () => {
     const url = new URL('https://myapp')
     url.searchParams.append('code', 'mocked-code')
     global.fetch = await mockCodeToTokenFetch({ nonce, expiresIn: 1 })
-    await cid.handleRedirectCallback(url)
+    await cid.handleLoginRedirectCallback(url)
     const claims = await cid.introspectAccessToken()
     expect(claims).toBeDefined()
     expect(claims!.aud).toEqual(['myorg.com'])

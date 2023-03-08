@@ -43,7 +43,7 @@ This function is typically bound to a button.
 
 Once signing the user in completes successfully, the user will be redirected to the location specified in `redirect_uri`.
 
-At this point, the signing in process must be completed by running the `crossid.handleRedirectCallback()` function which will take care of completing the flow and caching the tokens.
+At this point, the signing in process must be completed by running the `crossid.handleLoginRedirectCallback()` function which will take care of completing the flow and caching the tokens.
 
 To get an access token, which can be used to access your API:
 
