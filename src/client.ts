@@ -468,9 +468,9 @@ export default class CrossidClient {
     const req = data.request
     // this means we'r not performing a logout for a specific client.
     // in this flow we can't use state nor expect the AS to redirect back
-    // to the app so we must compelte auth here
+    // to the app so we must complete auth here
     // we also choose to wipe everything out if there's no post_logout_redirect_uri set as there will
-    // not be a chance for the app to complete the logout process
+    // be no chance for the app to complete the logout process
     if (!req.id_token_hint || !opts.post_logout_redirect_uri) {
       // todo: this deletes only tokens for the given audience and scopes, consider deleting ALL tokens instead.
       this._removeTokens(data.audience, data.scopes)
