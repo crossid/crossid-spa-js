@@ -478,6 +478,8 @@
             error: null,
             // opts
             domain: data.domain,
+            uiLocales: data.uiLocales,
+            templateId: data.templateId,
             wellKnownEndpoint: data.wellKnownEndpoint,
             issuer: data.issuer,
             authEndpoint: data.authEndpoint,
@@ -615,6 +617,8 @@
                 selectedTab: this.selectedTab,
                 cacheType: this.cacheType,
                 logoutClientScope: this.logoutClientScope,
+                uiLocales: this.uiLocales,
+                templateId: this.templateId,
               })
             )
             await this.initClient()
