@@ -1,5 +1,14 @@
 # @crossid/crossid-spa-js
 
+## 0.4.7
+
+[All Changes](https://github.com/crossid/crossid-spa-js/compare/v0.4.6...v0.4.7)
+
+### Minor Changes
+
+- Move deps into `dev-dependencies`
+- Pack `dist/types`
+
 ## 0.4.6
 
 [All Changes](https://github.com/crossid/crossid-spa-js/compare/v0.4.5...v0.4.6)
