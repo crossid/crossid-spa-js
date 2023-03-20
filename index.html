@@ -35,7 +35,7 @@
 <p>To sign user in, call <code>crossid.loginWithRedirect({})</code> to redirect browser to the authprization server login page.
 This function is typically bound to a button.</p>
 <p>Once signing the user in completes successfully, the user will be redirected to the location specified in <code>redirect_uri</code>.</p>
-<p>At this point, the signing in process must be completed by running the <code>crossid.handleRedirectCallback()</code> function which will take care of completing the flow and caching the tokens.</p>
+<p>At this point, the signing in process must be completed by running the <code>crossid.handleLoginRedirectCallback()</code> function which will take care of completing the flow and caching the tokens.</p>
 <p>To get an access token, which can be used to access your API:</p>
 <pre><code class="language-js"><span class="hl-4">const</span><span class="hl-0"> </span><span class="hl-5">token</span><span class="hl-0"> = </span><span class="hl-2">await</span><span class="hl-0"> </span><span class="hl-3">client</span><span class="hl-0">.</span><span class="hl-6">getAccessToken</span><span class="hl-0">()</span>
 </code></pre>
