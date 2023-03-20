@@ -1,5 +1,11 @@
 # @crossid/crossid-spa-js
 
+## 0.4.8
+
+[All Changes](https://github.com/crossid/crossid-spa-js/compare/v0.4.7...v0.4.8)
+
+- Change `handleRedirectCallback` -> `handleLoginRedirectCallback`
+
 ## 0.4.7
 
 [All Changes](https://github.com/crossid/crossid-spa-js/compare/v0.4.6...v0.4.7)
